@@ -110,7 +110,7 @@ export default function OverOns() {
                 to="/gratis-kennismaking"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
               >
-                Neem contact op <ArrowRight size={18} />
+                Plan een kennismaking <ArrowRight size={18} />
               </Link>
             </div>
           </AnimatedSection>

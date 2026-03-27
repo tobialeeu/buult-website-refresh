@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Eye, MessageCircle, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, Camera, Eye, MessageCircle, TrendingUp } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
@@ -24,24 +24,24 @@ const reasons = [
 
 const whyBuult = [
   {
-    icon: MessageCircle,
-    title: "We denken echt mee",
+    icon: Eye,
+    title: "Gratis prototype",
     description:
-      "We helpen mee met inhoud, structuur en uitstraling, zodat de site echt voelt als jouw bedrijf.",
+      "Je krijgt eerst een gratis prototype, volledig 100% vrijblijvend, voordat we het eindproduct opleveren.",
     iconWrapClassName: "bg-blue-50 group-hover:bg-blue-600 group-hover:rotate-6",
     iconClassName: "text-blue-600 group-hover:text-white",
   },
   {
-    icon: CheckCircle,
-    title: "Meer zekerheid vooraf",
+    icon: Camera,
+    title: "Gratis fotoshoot",
     description:
-      "Je weet sneller waar je op uitkomt, waardoor keuzes duidelijker worden en het eindresultaat beter klopt.",
+      "Bij je website krijg je ook een gratis fotoshoot, zodat het beeldmateriaal net zo professioneel voelt als de rest van je uitstraling.",
     iconWrapClassName: "bg-teal-50 group-hover:bg-teal-500 group-hover:-rotate-6",
     iconClassName: "text-teal-600 group-hover:text-white",
     offsetClassName: "md:translate-y-10",
   },
   {
-    icon: Zap,
+    icon: MessageCircle,
     title: "Snelheid + korte lijntjes",
     description:
       "Snel geleverd werk, snelle iteraties en direct contact zodra er iets moet gebeuren.",
@@ -177,7 +177,7 @@ export default function Index() {
         <div className="container">
           <AnimatedSection>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
                 Waarom een betere website?
               </h2>
             </div>
@@ -216,7 +216,7 @@ export default function Index() {
             <div className="relative z-10">
               <AnimatedSection>
                 <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
-                  <h2 className="mb-6 text-4xl font-bold tracking-tight leading-tight text-slate-900 md:text-5xl">
+                  <h2 className="mb-6 text-2xl font-bold tracking-tight leading-tight text-slate-900 md:text-3xl">
                     Waarom bij ons?
                   </h2>
                   <p className="text-lg leading-relaxed text-slate-600">
@@ -238,7 +238,7 @@ export default function Index() {
                           <item.icon className={`h-8 w-8 transition-all duration-300 ${item.iconClassName ?? "text-primary"}`} />
                         </div>
                       </div>
-                      <h3 className="mb-4 text-2xl font-bold text-slate-900">
+                      <h3 className="mb-4 text-xl font-bold text-slate-900">
                         {item.title}
                       </h3>
                       <p className="leading-relaxed text-slate-600">
