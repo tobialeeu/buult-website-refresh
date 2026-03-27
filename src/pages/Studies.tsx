@@ -23,15 +23,6 @@ const studies = [
     link: "https://credibility.stanford.edu/pdf/Stanford-MakovskyWebCredStudy2002-prelim.pdf",
   },
   {
-    title: "Eerste indruk & vertrouwen",
-    source: "Behaviour & Information Technology",
-    summary:
-      "Wetenschappelijk onderzoek toont aan dat bezoekers binnen 50 milliseconden een oordeel vormen over een website. Dit oordeel is voornamelijk gebaseerd op visueel ontwerp en bepaalt of ze blijven of vertrekken.",
-    takeaway:
-      "De eerste indruk van je website is letterlijk een fractie van een seconde. Een verouderd of rommelig ontwerp kan bezoekers direct afschrikken, nog voordat ze je inhoud hebben gelezen.",
-    link: null,
-  },
-  {
     title: "Laadtijd & bouncepercentage",
     source: "Google / Think with Google",
     summary:
