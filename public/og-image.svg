@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Buult social preview</title>
+  <desc id="desc">Buult - Websites die jouw bedrijf verder brengen</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="55%" stop-color="#dbeafe" />
+      <stop offset="100%" stop-color="#bfdbfe" />
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.78" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="bar-1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="bar-2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="bar-3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </linearGradient>
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#1e3a8a" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1035" cy="128" r="186" fill="#ffffff" fill-opacity="0.46" />
+  <circle cx="932" cy="492" r="230" fill="#60a5fa" fill-opacity="0.16" />
+  <path d="M720 0H1200V290L974 196C894 162 816 142 720 128Z" fill="#ffffff" fill-opacity="0.28" />
+  <path d="M0 484L318 414C434 388 548 390 644 422L866 496V630H0Z" fill="#ffffff" fill-opacity="0.18" />
+  <rect x="618" y="-64" width="516" height="270" rx="135" transform="rotate(16 618 -64)" fill="url(#beam)" />
+
+  <g opacity="0.62">
+    <path d="M84 104H530" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" />
+    <path d="M84 138H398" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" />
+    <path d="M84 480H322" stroke="#bfdbfe" stroke-width="2" stroke-linecap="round" />
+    <path d="M84 514H270" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <g font-family="'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif" fill="#0f172a">
+    <rect x="84" y="82" width="148" height="42" rx="21" fill="#ffffff" fill-opacity="0.82" />
+    <text x="118" y="109" font-size="18" font-weight="700" letter-spacing="5.4" fill="#1d4ed8">BUULT</text>
+    <text x="84" y="276" font-size="108" font-weight="800" letter-spacing="-3.2">Buult</text>
+    <text x="84" y="354" font-size="42" font-weight="600" fill="#1e3a8a">Websites die jouw bedrijf verder brengen</text>
+    <text x="84" y="430" font-size="24" fill="#334155">
+      Professionele websites voor MKB-bedrijven die vertrouwen wekken,
+    </text>
+    <text x="84" y="466" font-size="24" fill="#334155">
+      klanten overtuigen en online groei ondersteunen.
+    </text>
+  </g>
+
+  <g filter="url(#soft-shadow)" transform="translate(760 116)">
+    <g transform="rotate(-8 210 190)">
+      <rect x="0" y="270" width="360" height="102" rx="34" fill="url(#bar-3)" />
+      <rect x="52" y="148" width="256" height="94" rx="30" fill="url(#bar-2)" />
+      <rect x="112" y="38" width="156" height="84" rx="26" fill="url(#bar-1)" />
+      <rect x="26" y="286" width="132" height="10" rx="5" fill="#ffffff" fill-opacity="0.18" />
+      <rect x="78" y="162" width="104" height="9" rx="4.5" fill="#ffffff" fill-opacity="0.18" />
+      <rect x="136" y="50" width="68" height="8" rx="4" fill="#ffffff" fill-opacity="0.2" />
+    </g>
+  </g>
+</svg>
