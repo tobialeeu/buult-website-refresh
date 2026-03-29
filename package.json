@@ -4,10 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node ./scripts/generate-showcases.mjs",
+    "prebuild": "node ./scripts/generate-showcases.mjs",
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "generate:showcases": "node ./scripts/generate-showcases.mjs",
+    "generate:showcase-posters": "node ./scripts/capture-showcase-posters.mjs",
     "lint": "eslint .",
+    "start": "vite preview",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

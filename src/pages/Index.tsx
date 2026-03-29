@@ -1,9 +1,17 @@
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Camera, MessageCircle, PencilRuler, ShieldCheck, TrendingUp } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
-import overOnsImg from "../../over_ons_afbeelding-97eZ1EW3.png";
+import homeShowcaseImg from "@/assets/buult-home-showcase.jpg";
+import overOnsImg from "@/assets/over-ons-founders.jpg";
+import softwareSupabaseLogo from "@/assets/software-supabase.svg";
+import softwareCloudflareLogo from "@/assets/software-cloudflare.svg";
+import softwareNextJsLogo from "@/assets/software-nextjs.svg";
+
+const loadWebsiteShowcaseCarousel = () => import("@/components/WebsiteShowcaseCarousel");
+const WebsiteShowcaseCarousel = lazy(loadWebsiteShowcaseCarousel);
 
 const reasons = [
   {
@@ -56,9 +64,122 @@ const whyBuult = [
 
 const founderPillars = ["Hard werken", "Ondernemend denken", "Korte lijnen"];
 
-const homeShowreelSrc = "/buult-home-video.mp4";
+const softwareStack = [
+  {
+    name: "Supabase",
+    src: softwareSupabaseLogo,
+    alt: "Supabase logo",
+  },
+  {
+    name: "Cloudflare",
+    src: softwareCloudflareLogo,
+    alt: "Cloudflare logo",
+  },
+  {
+    name: "NextJS",
+    src: softwareNextJsLogo,
+    alt: "NextJS logo",
+  },
+] as const;
 
 const showHomeAboutTeaser = true;
+
+function scheduleIdlePrefetch(callback: () => void) {
+  if (typeof window === "undefined") {
+    const timeoutId = setTimeout(callback, 0);
+    return () => clearTimeout(timeoutId);
+  }
+
+  if ("requestIdleCallback" in window) {
+    const idleId = window.requestIdleCallback(() => callback(), { timeout: 1500 });
+    return () => window.cancelIdleCallback(idleId);
+  }
+
+  const timeoutId = window.setTimeout(callback, 220);
+  return () => window.clearTimeout(timeoutId);
+}
+
+function WebsiteShowcaseFallback() {
+  return (
+    <div className="mx-auto max-w-6xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
+        <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
+      </div>
+      <div className="rounded-[2rem] border border-white/12 bg-white/[0.04] p-4 shadow-[0_35px_90px_-60px_rgba(15,23,42,0.18)] md:p-4">
+        <div className="flex items-center justify-between gap-4 border-b border-border/70 px-2 pb-3 text-slate-500 md:px-3">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+            <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+            <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          </div>
+          <div className="h-8 w-40 animate-pulse rounded-full bg-slate-200/80" />
+          <div className="h-4 w-12 animate-pulse rounded bg-slate-200/80" />
+        </div>
+        <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-border/70 bg-slate-950/80">
+          <div className="h-[320px] animate-pulse bg-slate-200/70 md:h-[380px]" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DeferredWebsiteShowcase() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [shouldLoadShowcase, setShouldLoadShowcase] = useState(false);
+
+  useEffect(() => {
+    const cancelIdlePrefetch = scheduleIdlePrefetch(() => {
+      void loadWebsiteShowcaseCarousel();
+    });
+
+    return cancelIdlePrefetch;
+  }, []);
+
+  useEffect(() => {
+    if (shouldLoadShowcase) {
+      return;
+    }
+
+    const node = sectionRef.current;
+
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setShouldLoadShowcase(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadShowcase(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "900px 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [shouldLoadShowcase]);
+
+  return (
+    <div ref={sectionRef}>
+      {shouldLoadShowcase ? (
+        <Suspense fallback={<WebsiteShowcaseFallback />}>
+          <WebsiteShowcaseCarousel />
+        </Suspense>
+      ) : (
+        <WebsiteShowcaseFallback />
+      )}
+    </div>
+  );
+}
 
 export default function Index() {
   const prefersReducedMotion = useReducedMotion();
@@ -183,6 +304,72 @@ export default function Index() {
         <div className="pointer-events-none absolute inset-x-[18%] bottom-[-5rem] h-36 rounded-full bg-primary/16 blur-3xl" />
       </section>
 
+      {/* Waarom Buult */}
+      <section className="bg-card py-16 md:py-20">
+        <div className="container">
+          <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start">
+            <AnimatedSection>
+              <div className="max-w-sm">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Onze aanpak</p>
+                <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+                  Waarom Buult?
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+                  Geen ruis, geen onnodige lagen en geen vaag proces. Gewoon snel schakelen en een website bouwen die klopt.
+                </p>
+                <Link
+                  to="/hoe-werken-wij"
+                  className="mt-6 inline-flex items-center gap-2 text-primary font-semibold hover:underline"
+                >
+                  Kijk hoe wij te werk gaan <ArrowRight size={16} />
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            <div className="grid gap-5 md:grid-cols-3">
+              {whyBuult.map((item, i) => (
+                <AnimatedSection key={item.title} delay={i * 0.08} className="h-full">
+                  <div className="group h-full rounded-[2rem] border border-white bg-white/90 p-6 text-left shadow-lg shadow-slate-200/40 backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 md:p-7">
+                    <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm transition-all duration-300 ${item.iconWrapClassName}`}>
+                      <item.icon className={`h-7 w-7 transition-all duration-300 ${item.iconClassName ?? "text-primary"}`} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 leading-relaxed text-slate-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Showcase image */}
+      <section className="bg-card py-6 md:py-8">
+        <div className="container">
+          <AnimatedSection>
+            <div className="mx-auto max-w-5xl">
+              <div className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-slate-950 shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
+                <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),linear-gradient(to_bottom,rgba(15,23,42,0.02),rgba(15,23,42,0.18))]" />
+                <img
+                  className="aspect-[16/9] w-full object-cover"
+                  src={homeShowcaseImg}
+                  alt="Buult website getoond op een desktop, tablet en telefoon"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  width={1536}
+                  height={1024}
+                />
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Waarom een betere website */}
       <section className="bg-card py-16 md:py-20">
         <div className="container">
@@ -222,92 +409,11 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Video */}
-      <section className="bg-card py-6 md:py-8">
-        <div className="container">
-          <AnimatedSection>
-            <div className="mx-auto max-w-5xl">
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-slate-950 shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
-                <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),linear-gradient(to_bottom,rgba(15,23,42,0.02),rgba(15,23,42,0.18))]" />
-                <video
-                  className="aspect-[16/9] w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/placeholder.svg"
-                  aria-label="Buult introductievideo"
-                >
-                  <source src={homeShowreelSrc} type="video/mp4" />
-                </video>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Waarom bij ons */}
-      <section className="bg-card py-16 md:py-20">
-        <div className="container">
-          <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start">
-              <AnimatedSection>
-                <div className="max-w-sm">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Onze aanpak</p>
-                  <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
-                    Waarom bij ons?
-                  </h2>
-                  <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
-                    Geen ruis, geen onnodige lagen en geen vaag proces. Gewoon snel schakelen en een website bouwen die klopt.
-                  </p>
-                  <button
-                    type="button"
-                    className="mt-6 inline-flex items-center gap-2 text-primary font-semibold hover:underline"
-                  >
-                    Bekijk wat wij kunnen <ArrowRight size={16} />
-                  </button>
-                </div>
-              </AnimatedSection>
-
-              <div className="grid gap-5 md:grid-cols-3">
-                {whyBuult.map((item, i) => (
-                  <AnimatedSection key={item.title} delay={i * 0.08} className="h-full">
-                    <div className="group h-full rounded-[2rem] border border-white bg-white/90 p-6 text-left shadow-lg shadow-slate-200/40 backdrop-blur-lg transition-all duration-300 hover:-translate-y-2 md:p-7">
-                      <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm transition-all duration-300 ${item.iconWrapClassName}`}>
-                        <item.icon className={`h-7 w-7 transition-all duration-300 ${item.iconClassName ?? "text-primary"}`} />
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-900">
-                        {item.title}
-                      </h3>
-                      <p className="mt-3 leading-relaxed text-slate-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </AnimatedSection>
-                ))}
-              </div>
-          </div>
-        </div>
-      </section>
-
       {/* Media placeholder */}
       <section className="bg-card py-8 md:py-10">
         <div className="container">
           <AnimatedSection>
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-dashed border-border/80 bg-surface/80 shadow-[0_25px_70px_-55px_rgba(15,23,42,0.35)]">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.12),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(96,165,250,0.10),transparent_26%)]" />
-              <div className="relative flex aspect-[16/8] flex-col items-center justify-center px-8 text-center md:aspect-[16/7]">
-                <span className="rounded-full border border-primary/15 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary shadow-sm">
-                  Placeholder
-                </span>
-                <h3 className="mt-5 text-2xl font-bold text-foreground md:text-3xl">
-                  Ruimte voor video, animatie of fotografie
-                </h3>
-                <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
-                  Hier kan later spelende of statische media komen die meer sfeer, werk of proces laat zien.
-                </p>
-              </div>
-            </div>
+            <DeferredWebsiteShowcase />
           </AnimatedSection>
         </div>
       </section>
@@ -322,11 +428,13 @@ export default function Index() {
                   <img
                     src={overOnsImg}
                     alt="Joachim en Tobias van Leeuwen - oprichters van Buult"
-                    className="relative w-full rounded-[2rem] object-cover object-[60%_center] shadow-card aspect-[4/4.4]"
-                    loading="lazy"
-                    width={800}
-                    height={1024}
-                  />
+                  className="relative w-full rounded-[2rem] object-cover object-[60%_center] shadow-card aspect-[4/4.4]"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  width={800}
+                  height={1024}
+                />
                 </div>
                 <div className="order-2 flex h-full flex-col justify-start">
                   <div>
@@ -360,6 +468,46 @@ export default function Index() {
           </div>
         </section>
       )}
+
+      {/* Software strip */}
+      <section className="bg-card py-8 md:py-10">
+        <div className="container">
+          <AnimatedSection>
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(239,246,255,0.92))] px-5 py-5 shadow-[0_28px_90px_-60px_rgba(15,23,42,0.4)] md:px-7 md:py-6">
+              <div className="pointer-events-none absolute left-12 top-0 h-24 w-24 rounded-full bg-sky-200/35 blur-3xl" />
+              <div className="pointer-events-none absolute right-[-3rem] top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-primary/12 blur-3xl" />
+              <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+                <div className="max-w-sm shrink-0">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Tooling</p>
+                  <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
+                    Deze software gebruiken wij veel
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    Voor websites die snel laden, stabiel draaien en strak gebouwd zijn.
+                  </p>
+                </div>
+
+                <div className="flex flex-1 flex-wrap gap-3 lg:justify-end">
+                  {softwareStack.map((tool) => (
+                    <div
+                      key={tool.name}
+                      className="flex min-h-[86px] min-w-[220px] flex-1 items-center justify-center rounded-[1.4rem] border border-slate-200/80 bg-white/94 px-5 py-4 shadow-[0_18px_45px_-32px_rgba(15,23,42,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.42)] md:min-w-[250px]"
+                    >
+                      <img
+                        src={tool.src}
+                        alt={tool.alt}
+                        className="h-10 w-auto max-w-[11rem] object-contain"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
 
       {/* Final CTA */}
       <section className="bg-card py-16 md:py-20">

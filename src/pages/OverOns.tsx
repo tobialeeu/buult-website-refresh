@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
-import overOnsImg from "../../over_ons_afbeelding-97eZ1EW3.png";
+import overOnsImg from "@/assets/over-ons-founders.jpg";
 
 const values = [
   {
@@ -49,6 +49,7 @@ export default function OverOns() {
                   src={overOnsImg}
                   alt="Joachim en Tobias van Leeuwen - oprichters van Buult"
                   className="rounded-2xl shadow-card w-full object-cover object-[60%_center] aspect-[4/5]"
+                  decoding="async"
                   width={800}
                   height={1024}
                 />

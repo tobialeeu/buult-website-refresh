@@ -1,18 +1,14 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Suspense, lazy, useEffect, type ReactNode } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Index from "./pages/Index";
-import OverOns from "./pages/OverOns";
-import Contact from "./pages/Contact";
-import Kennismaking from "./pages/Kennismaking";
-import Studies from "./pages/Studies";
-import Privacy from "./pages/Privacy";
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
+const OverOns = lazy(() => import("./pages/OverOns"));
+const HoeWerkenWij = lazy(() => import("./pages/HoeWerkenWij"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Kennismaking = lazy(() => import("./pages/Kennismaking"));
+const Studies = lazy(() => import("./pages/Studies"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -22,24 +18,31 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteFallback() {
+  return <div className="min-h-[40vh] bg-background" aria-hidden="true" />;
+}
+
+function LazyRoute({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<RouteFallback />}>{children}</Suspense>;
+}
+
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/over-ons" element={<OverOns />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/gratis-kennismaking" element={<Kennismaking />} />
-          <Route path="/studies" element={<Studies />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <>
+    <Sonner />
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/over-ons" element={<LazyRoute><OverOns /></LazyRoute>} />
+        <Route path="/hoe-werken-wij" element={<LazyRoute><HoeWerkenWij /></LazyRoute>} />
+        <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
+        <Route path="/gratis-kennismaking" element={<LazyRoute><Kennismaking /></LazyRoute>} />
+        <Route path="/studies" element={<LazyRoute><Studies /></LazyRoute>} />
+        <Route path="/privacy" element={<LazyRoute><Privacy /></LazyRoute>} />
+        <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
+      </Routes>
+    </BrowserRouter>
+  </>
 );
 
 export default App;
