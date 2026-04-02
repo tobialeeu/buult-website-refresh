@@ -6,6 +6,8 @@ import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import homeShowcaseImg from "@/assets/buult-home-showcase.jpg";
 import overOnsImg from "@/assets/over-ons-founders.jpg";
+import softwareResendLogo from "@/assets/software-resend.svg";
+import softwareGoogleCloudLogo from "@/assets/software-google-cloud.svg";
 import softwareSupabaseLogo from "@/assets/software-supabase.svg";
 import softwareCloudflareLogo from "@/assets/software-cloudflare.svg";
 import softwareNextJsLogo from "@/assets/software-nextjs.svg";
@@ -80,7 +82,21 @@ const softwareStack = [
     src: softwareNextJsLogo,
     alt: "NextJS logo",
   },
+  {
+    name: "Resend",
+    src: softwareResendLogo,
+    alt: "Resend logo",
+  },
+  {
+    name: "Google Cloud",
+    src: softwareGoogleCloudLogo,
+    alt: "Google Cloud logo",
+  },
 ] as const;
+
+function getCarouselSlot(index: number, activeIndex: number, total: number) {
+  return (index - activeIndex + total) % total;
+}
 
 const showHomeAboutTeaser = true;
 
@@ -183,9 +199,29 @@ function DeferredWebsiteShowcase() {
 
 export default function Index() {
   const prefersReducedMotion = useReducedMotion();
+  const [activeSoftwareLogo, setActiveSoftwareLogo] = useState(1);
+  const previousActiveSoftwareLogo = useRef(activeSoftwareLogo);
   const ambientSlow = { duration: 18, repeat: Infinity, repeatType: "mirror" as const, ease: "easeInOut" as const };
   const ambientMedium = { duration: 14, repeat: Infinity, repeatType: "mirror" as const, ease: "easeInOut" as const };
   const ambientFast = { duration: 10, repeat: Infinity, repeatType: "mirror" as const, ease: "easeInOut" as const };
+
+  useEffect(() => {
+    previousActiveSoftwareLogo.current = activeSoftwareLogo;
+  }, [activeSoftwareLogo]);
+
+  useEffect(() => {
+    if (prefersReducedMotion || typeof window === "undefined") {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setActiveSoftwareLogo((current) => (current + 1) % softwareStack.length);
+    }, 2800);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [prefersReducedMotion]);
 
   return (
     <Layout>
@@ -473,36 +509,67 @@ export default function Index() {
       <section className="bg-card py-8 md:py-10">
         <div className="container">
           <AnimatedSection>
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(239,246,255,0.92))] px-5 py-5 shadow-[0_28px_90px_-60px_rgba(15,23,42,0.4)] md:px-7 md:py-6">
-              <div className="pointer-events-none absolute left-12 top-0 h-24 w-24 rounded-full bg-sky-200/35 blur-3xl" />
-              <div className="pointer-events-none absolute right-[-3rem] top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-primary/12 blur-3xl" />
-              <div className="relative flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-                <div className="max-w-sm shrink-0">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Tooling</p>
-                  <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
-                    Deze software gebruiken wij veel
-                  </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    Voor websites die snel laden, stabiel draaien en strak gebouwd zijn.
-                  </p>
-                </div>
+            <div className="relative py-2">
+              <div className="text-center">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Tooling</p>
+                <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
+                  Deze software gebruiken wij veel
+                </h2>
+              </div>
 
-                <div className="flex flex-1 flex-wrap gap-3 lg:justify-end">
-                  {softwareStack.map((tool) => (
+              <div className="relative mx-auto mt-8 h-28 max-w-5xl overflow-hidden md:h-32">
+                {softwareStack.map((tool, index) => {
+                  const slot = getCarouselSlot(index, activeSoftwareLogo, softwareStack.length);
+                  const previousSlot = getCarouselSlot(index, previousActiveSoftwareLogo.current, softwareStack.length);
+                  const isVisibleSlot = slot === 0 || slot === 1 || slot === softwareStack.length - 1;
+                  const shouldTeleportToHidden = previousSlot === softwareStack.length - 1 && !isVisibleSlot;
+                  const slotStyles =
+                    slot === 0
+                      ? { left: "50%", opacity: 1, scale: 1, filter: "blur(0px) saturate(1)", zIndex: 4 }
+                      : slot === 1
+                        ? { left: "78%", opacity: 0.28, scale: 0.8, filter: "grayscale(0.15) blur(0.8px) saturate(0.45)", zIndex: 2 }
+                        : slot === softwareStack.length - 1
+                          ? { left: "22%", opacity: 0.28, scale: 0.8, filter: "grayscale(0.15) blur(0.8px) saturate(0.45)", zIndex: 2 }
+                          : { left: "108%", opacity: 0, scale: 0.64, filter: "grayscale(0.35) blur(1.2px) saturate(0.28)", zIndex: 1 };
+
+                  return (
                     <div
                       key={tool.name}
-                      className="flex min-h-[86px] min-w-[220px] flex-1 items-center justify-center rounded-[1.4rem] border border-slate-200/80 bg-white/94 px-5 py-4 shadow-[0_18px_45px_-32px_rgba(15,23,42,0.45)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-36px_rgba(15,23,42,0.42)] md:min-w-[250px]"
+                      className="absolute top-1/2 flex w-[5.75rem] -translate-x-1/2 -translate-y-1/2 justify-center transition-[left] duration-700 md:w-[8.75rem] lg:w-[10.5rem]"
+                      style={{
+                        left: slotStyles.left,
+                        zIndex: slotStyles.zIndex,
+                        transitionDuration: prefersReducedMotion || shouldTeleportToHidden ? "0ms" : "850ms",
+                        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                      }}
                     >
-                      <img
-                        src={tool.src}
-                        alt={tool.alt}
-                        className="h-10 w-auto max-w-[11rem] object-contain"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <motion.div
+                        className="w-full transition-[filter] duration-700"
+                        initial={false}
+                        animate={{
+                          opacity: slotStyles.opacity,
+                          scale: slotStyles.scale,
+                        }}
+                        transition={
+                          prefersReducedMotion
+                            ? { duration: 0 }
+                            : { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+                        }
+                        style={{
+                          filter: slotStyles.filter,
+                        }}
+                      >
+                        <img
+                          src={tool.src}
+                          alt={tool.alt}
+                          className="h-auto w-full object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </motion.div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             </div>
           </AnimatedSection>
