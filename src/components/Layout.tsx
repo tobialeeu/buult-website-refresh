@@ -7,6 +7,7 @@ import buultLogo from "@/assets/buult-logo.svg";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "Hoe werken wij?", to: "/hoe-werken-wij" },
+  { label: "Tarieven", to: "/tarieven" },
   { label: "Studies", to: "/studies" },
   { label: "Contact", to: "/contact" },
   { label: "Over ons", to: "/over-ons" },

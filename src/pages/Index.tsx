@@ -279,13 +279,19 @@ export default function Index() {
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                   Buult bouwt websites die passen bij jouw bedrijf, vertrouwen wekken bij bezoekers en online groei ondersteunen. Geen standaard sjabloon, maar iets dat werkt.
                 </p>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                   <Link
                     to="/gratis-kennismaking"
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
                   >
                     Plan een kennismaking
                     <ArrowRight size={18} />
+                  </Link>
+                  <Link
+                    to="/tarieven"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card/90 px-7 py-3.5 text-base font-semibold text-foreground hover:bg-secondary transition-colors"
+                  >
+                    Bekijk tarieven
                   </Link>
                   <Link
                     to="/over-ons"
