@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Camera, MessageCircle, PencilRuler, ShieldCheck, TrendingUp } from "lucide-react";
+import { ArrowRight, Clock, HelpCircle, Layers, MessageCircle, PencilRuler, Phone, ShieldOff, Users } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
@@ -15,41 +15,30 @@ import softwareNextJsLogo from "@/assets/software-nextjs.svg";
 const loadWebsiteShowcaseCarousel = () => import("@/components/WebsiteShowcaseCarousel");
 const WebsiteShowcaseCarousel = lazy(loadWebsiteShowcaseCarousel);
 
-const reasons = [
-  {
-    icon: ShieldCheck,
-    title: "Vertrouwen in de eerste seconden",
-    description:
-      "Een slechte website schaadt vaak al in de eerste seconden het vertrouwen. Onderzoek van Stanford liet zien dat mensen geloofwaardigheid van websites in sterke mate beoordelen op ontwerp en structuur.",
-    iconWrapClassName: "bg-blue-50 group-hover:bg-blue-600 group-hover:rotate-6",
-    iconClassName: "text-blue-600 group-hover:text-white",
-  },
-  {
-    icon: TrendingUp,
-    title: "Meer vertrouwen, meer bestellingen",
-    description:
-      "Mensen die je vertrouwen, besteden sneller geld. Bij veel webshops stopt 70% van de mensen nu nog vlak voor de betaling, simpelweg omdat het bestelformulier te onhandig is. Maak je het de klant makkelijker? Dan kun je tot wel 35% meer bestellingen binnenkrijgen.",
-    iconWrapClassName: "bg-emerald-500/15 group-hover:bg-emerald-500 group-hover:-rotate-6",
-    iconClassName: "text-emerald-600 group-hover:text-white",
-  },
+const homeProblems = [
+  { text: "Je beantwoordt steeds dezelfde basisvragen", icon: HelpCircle, bg: "bg-blue-50", color: "text-blue-600" },
+  { text: "Klanten twijfelen aan je professionaliteit", icon: ShieldOff, bg: "bg-amber-50", color: "text-amber-600" },
+  { text: "Je verliest klanten buiten openingstijden", icon: Clock, bg: "bg-rose-50", color: "text-rose-600" },
+  { text: "Je bent afhankelijk van bellen en WhatsApp", icon: Phone, bg: "bg-teal-50", color: "text-teal-600" },
+  { text: "Mond-tot-mondreclame werkt minder goed", icon: Users, bg: "bg-violet-50", color: "text-violet-600" },
 ];
 
 const whyBuult = [
   {
     icon: PencilRuler,
-    title: "Gratis prototype",
+    title: "Gratis eerste versie",
     label: "Eerst zien, dan beslissen",
     description:
-      "Je krijgt eerst een gratis prototype, volledig 100% vrijblijvend, voordat we het eindproduct opleveren.",
+      "Je krijgt eerst een gratis versie van je website, volledig vrijblijvend, voordat je beslist.",
     iconWrapClassName: "bg-blue-50 group-hover:bg-blue-600 group-hover:rotate-6",
     iconClassName: "text-blue-600 group-hover:text-white",
   },
   {
-    icon: Camera,
-    title: "Gratis fotoshoot",
-    label: "Sterkere uitstraling",
+    icon: Layers,
+    title: "1 partij die alles fixt",
+    label: "Geen gedoe",
     description:
-      "Bij je website krijg je ook een gratis fotoshoot, zodat het beeldmateriaal net zo professioneel voelt als de rest van je uitstraling.",
+      "Website, tekst, hosting. Alles via ons, geen losse partijen bij elkaar zoeken.",
     iconWrapClassName: "bg-teal-50 group-hover:bg-teal-500 group-hover:-rotate-6",
     iconClassName: "text-teal-600 group-hover:text-white",
   },
@@ -274,10 +263,10 @@ export default function Index() {
               <div className="relative max-w-2xl">
                 <div className="pointer-events-none absolute -left-10 top-4 h-40 w-40 rounded-full bg-white/35 blur-3xl opacity-60" />
                 <h1 className="text-4xl font-extrabold leading-[1.05] text-foreground text-balance md:text-5xl lg:text-6xl">
-                  Een website die jouw bedrijf echt verder brengt
+                  Je ziet je website al voordat je 'ja' zegt
                 </h1>
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  Buult bouwt websites die passen bij jouw bedrijf, vertrouwen wekken bij bezoekers en online groei ondersteunen. Geen standaard sjabloon, maar iets dat werkt.
+                  We bouwen een gratis versie van je website. Pas als je het ziet en het klopt, ga je verder. Directe lijnen, vaste prijs, geen verrassingen.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                   <Link
@@ -292,12 +281,6 @@ export default function Index() {
                     className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card/90 px-7 py-3.5 text-base font-semibold text-foreground hover:bg-secondary transition-colors"
                   >
                     Bekijk tarieven
-                  </Link>
-                  <Link
-                    to="/over-ons"
-                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card/90 px-7 py-3.5 text-base font-semibold text-foreground hover:bg-secondary transition-colors"
-                  >
-                    Meer over ons
                   </Link>
                 </div>
               </div>
@@ -343,7 +326,7 @@ export default function Index() {
           </div>
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent via-background/80 to-card" />
-        <div className="pointer-events-none absolute inset-x-[18%] bottom-[-5rem] h-36 rounded-full bg-primary/16 blur-3xl" />
+        <div className="pointer-events-none absolute inset-x-[18%] bottom-0 h-24 rounded-full bg-primary/10 blur-3xl" />
       </section>
 
       {/* Waarom Buult */}
@@ -394,7 +377,7 @@ export default function Index() {
         <div className="container">
           <AnimatedSection>
             <div className="mx-auto max-w-5xl">
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-slate-950 shadow-[0_30px_90px_-50px_rgba(15,23,42,0.45)]">
+              <div className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-slate-950 shadow-[0_8px_30px_-8px_rgba(15,23,42,0.15)]">
                 <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),linear-gradient(to_bottom,rgba(15,23,42,0.02),rgba(15,23,42,0.18))]" />
                 <img
                   className="aspect-[16/9] w-full object-cover"
@@ -412,41 +395,45 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Waarom een betere website */}
+      {/* Herken je dit? */}
       <section className="bg-card py-16 md:py-20">
         <div className="container">
-          <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-10">
+          <div className="mx-auto max-w-3xl">
             <AnimatedSection>
-              <div className="max-w-sm">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Onderbouwing</p>
+              <div className="text-center">
+                <p className="text-sm font-semibold uppercase tracking-wider text-primary">Herken je dit?</p>
                 <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">
-                  Waarom een betere website?
+                  Zonder goede website loop je klanten mis
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-                  Een goede website is geen decorstuk. Hij moet vertrouwen opbouwen, frictie wegnemen en bezoekers helpen om door te gaan.
-                </p>
-                <Link
-                  to="/studies"
-                  className="mt-6 inline-flex items-center gap-2 text-primary font-semibold hover:underline"
-                >
-                  Bekijk de onderzoeken <ArrowRight size={16} />
-                </Link>
               </div>
             </AnimatedSection>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              {reasons.map((r, i) => (
-                <AnimatedSection key={r.title} delay={i * 0.1} className="h-full">
-                  <div className="group flex h-full flex-col rounded-[1.75rem] border border-border/80 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-2 hover:shadow-card-hover md:p-7">
-                    <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 ${r.iconWrapClassName ?? "bg-primary/10"}`}>
-                      <r.icon className={`transition-all duration-300 ${r.iconClassName ?? "text-primary"}`} size={24} />
+            <div className="mt-10 space-y-4">
+              {homeProblems.map((problem, i) => {
+                const Icon = problem.icon;
+                return (
+                  <AnimatedSection key={problem.text} delay={i * 0.06}>
+                    <div className="flex items-center gap-4 rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-4 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.42)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_-50px_rgba(15,23,42,0.45)] md:px-6 md:py-5">
+                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${problem.bg}`}>
+                        <Icon size={20} strokeWidth={1.8} className={problem.color} />
+                      </div>
+                      <p className="text-base font-semibold text-slate-900 md:text-lg">{problem.text}</p>
                     </div>
-                    <h3 className="text-xl font-bold text-foreground">{r.title}</h3>
-                    <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{r.description}</p>
-                  </div>
-                </AnimatedSection>
-              ))}
+                  </AnimatedSection>
+                );
+              })}
             </div>
+
+            <AnimatedSection delay={0.35}>
+              <div className="mt-8 flex justify-center">
+                <Link
+                  to="/studies"
+                  className="inline-flex items-center gap-2 text-primary font-semibold hover:underline"
+                >
+                  Lees meer <ArrowRight size={16} />
+                </Link>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -519,7 +506,7 @@ export default function Index() {
               <div className="text-center">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">Tooling</p>
                 <h2 className="mt-2 text-xl font-bold tracking-tight text-slate-900 md:text-2xl">
-                  Deze software gebruiken wij veel
+                  Deze software gebruiken wij
                 </h2>
               </div>
 

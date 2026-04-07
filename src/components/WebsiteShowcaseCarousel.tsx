@@ -160,9 +160,9 @@ function BrowserWindowShell({
   activeSlideIndex,
 }: BrowserWindowShellProps) {
   return (
-    <div className="overflow-visible rounded-[2rem] shadow-[0_34px_90px_-42px_rgba(15,23,42,0.34),0_18px_32px_-24px_rgba(15,23,42,0.18)]">
+    <div className="rounded-[2rem]">
       <div className="overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.04]">
-        <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-white/75 md:px-5">
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 bg-slate-950 px-4 py-3 text-white/75 md:px-5">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
             <span className="h-3 w-3 rounded-full bg-[#febc2e]" />

@@ -1,109 +1,164 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import {
+  ArrowRight,
+  HelpCircle,
+  ShieldOff,
+  Clock,
+  Phone,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 
-const studies = [
+type Problem = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  colorClasses: {
+    bg: string;
+    icon: string;
+    number: string;
+  };
+};
+
+const problems: Problem[] = [
   {
-    title: "Baymard Institute",
-    source: "Baymard Institute",
-    summary:
-      "Baymard Institute. (n.d.). Checkout usability: 141,429 UX performance scores benchmarked across 326 e-commerce sites. Baymard Institute.",
-    takeaway:
-      "Bij veel webshops stopt 70% van de mensen vlak voor de betaling, simpelweg omdat het bestelformulier te onhandig is. Maak je het de klant makkelijker? Dan kun je tot wel 35% meer bestellingen binnenkrijgen.",
-    link: "https://baymard.com/research/checkout-usability",
+    title: "Je beantwoordt steeds dezelfde basisvragen",
+    description:
+      "Je website zou die vragen moeten beantwoorden, niet jij.",
+    icon: HelpCircle,
+    colorClasses: {
+      bg: "bg-blue-50",
+      icon: "text-blue-600",
+      number: "text-blue-200",
+    },
   },
   {
-    title: "Stanford Web Credibility Project",
-    source: "Stanford Persuasive Technology Lab, Stanford University",
-    summary:
-      "Fogg, B. J., Kameda, T., Boyd, J., Marshall, J., Sethi, R., Sockol, M., & Trowbridge, T. (2002). Stanford-Makovsky Web credibility study 2002: Investigating what makes Web sites credible today.",
-    takeaway:
-      "Onderzoek van Stanford liet zien dat mensen de geloofwaardigheid van websites in sterke mate beoordelen op ontwerp en structuur.",
-    link: "https://credibility.stanford.edu/pdf/Stanford-MakovskyWebCredStudy2002-prelim.pdf",
+    title: "Klanten twijfelen aan je professionaliteit",
+    description:
+      "Mensen beoordelen je bedrijf op hoe je website eruitziet.",
+    icon: ShieldOff,
+    colorClasses: {
+      bg: "bg-amber-50",
+      icon: "text-amber-600",
+      number: "text-amber-200",
+    },
   },
   {
-    title: "Laadtijd & bouncepercentage",
-    source: "Google / Think with Google",
-    summary:
-      "Google's onderzoek laat zien dat 53% van de mobiele bezoekers een website verlaat als deze langer dan 3 seconden laadt. Elke extra seconde laadtijd verhoogt het bouncepercentage aanzienlijk.",
-    takeaway:
-      "Snelheid is geen technisch detail - het is een zakelijke prioriteit. Een snelle website houdt bezoekers vast en vergroot de kans op conversie. Buult bouwt daarom altijd met performance als uitgangspunt.",
-    link: "https://www.thinkwithgoogle.com/",
+    title: "Je verliest klanten buiten openingstijden",
+    description:
+      "Mensen zoeken 's avonds en in het weekend. Zonder goede website ben je dan onzichtbaar.",
+    icon: Clock,
+    colorClasses: {
+      bg: "bg-rose-50",
+      icon: "text-rose-600",
+      number: "text-rose-200",
+    },
+  },
+  {
+    title: "Je bent afhankelijk van bellen en WhatsApp",
+    description:
+      "Elk nieuw contact loopt via jou persoonlijk. Dat schaalt niet.",
+    icon: Phone,
+    colorClasses: {
+      bg: "bg-teal-50",
+      icon: "text-teal-600",
+      number: "text-teal-200",
+    },
+  },
+  {
+    title: "Mond-tot-mondreclame werkt minder goed",
+    description:
+      "Mensen zoeken je eerst online op. Als je website niet overtuigt, verlies je ze alsnog.",
+    icon: Users,
+    colorClasses: {
+      bg: "bg-violet-50",
+      icon: "text-violet-600",
+      number: "text-violet-200",
+    },
   },
 ];
 
 export default function Studies() {
   return (
     <Layout>
-      <section className="py-20 md:py-28 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-primary/5 via-background to-primary/10">
         <div className="container">
           <AnimatedSection>
             <div className="max-w-2xl">
-              <p className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">Studies & onderbouwing</p>
+              <p className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">Herken je dit?</p>
               <h1 className="text-4xl md:text-5xl font-extrabold leading-[1.1] text-foreground text-balance">
-                Onderzoeken achter onze keuzes
+                Zonder goede website loop je <span className="text-primary">klanten mis</span>
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Op deze pagina vind je de onderzoeken uit het document, aangevuld met de extra bronnen die al op de website stonden.
+                Dit zijn de problemen die we bij bijna elk bedrijf tegenkomen. Herkenbaar? Dan is het tijd voor een website die voor je werkt.
               </p>
             </div>
           </AnimatedSection>
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-card">
+      <section className="py-16 md:py-20 bg-card">
         <div className="container">
-          <div className="grid gap-8 max-w-4xl mx-auto">
-            {studies.map((study, i) => (
-              <AnimatedSection key={study.title} delay={i * 0.08}>
-                <article className="rounded-xl border border-border bg-card p-8 md:p-10 shadow-card hover:shadow-card-hover transition-all duration-300">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground">{study.title}</h2>
-                      <p className="text-sm text-primary font-medium mt-1">{study.source}</p>
+          <div className="mx-auto max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-2">
+            {problems.map((problem, index) => {
+              const Icon = problem.icon;
+              const isLast = index === problems.length - 1;
+
+              return (
+                <AnimatedSection
+                  key={problem.title}
+                  delay={index * 0.06}
+                  className={isLast ? "md:col-span-2 md:max-w-[calc(50%-0.625rem)] md:mx-auto" : ""}
+                >
+                  <article className="relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white px-6 py-6 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.42)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_-50px_rgba(15,23,42,0.45)] md:px-7 md:py-7">
+                    <span className={`absolute right-4 top-3 text-5xl font-black leading-none select-none ${problem.colorClasses.number}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${problem.colorClasses.bg}`}>
+                      <Icon size={24} strokeWidth={1.8} className={problem.colorClasses.icon} />
                     </div>
-                    {study.link && (
-                      <a
-                        href={study.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors"
-                        aria-label={`Bron: ${study.source}`}
-                      >
-                        <ExternalLink size={16} />
-                      </a>
-                    )}
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed mb-4">{study.summary}</p>
-                  <div className="rounded-lg bg-surface p-5">
-                    <p className="text-sm font-semibold text-foreground mb-1">Wat dit betekent</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{study.takeaway}</p>
-                  </div>
-                </article>
-              </AnimatedSection>
-            ))}
+
+                    <h2 className="mt-5 text-xl font-bold text-slate-900 md:text-[1.4rem] leading-snug pr-12">
+                      {problem.title}
+                    </h2>
+                    <p className="mt-2 leading-relaxed text-slate-600">
+                      {problem.description}
+                    </p>
+                  </article>
+                </AnimatedSection>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 md:py-28 bg-surface">
+      <section className="py-16 md:py-20 bg-card">
         <div className="container">
           <AnimatedSection>
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Overtuigd van het belang van goed webdesign?
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-10">
-                Laat ons eens kijken naar jouw huidige website. We denken graag vrijblijvend met je mee.
-              </p>
-              <Link
-                to="/gratis-kennismaking"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
-              >
-                Plan een kennismaking <ArrowRight size={18} />
-              </Link>
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-surface-dark px-6 py-8 text-surface-dark-foreground shadow-[0_30px_90px_-48px_rgba(15,23,42,0.9)] md:px-10 md:py-10">
+              <div className="pointer-events-none absolute left-0 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+              <div className="pointer-events-none absolute bottom-[-4rem] right-[-3rem] h-52 w-52 rounded-full bg-sky-300/20 blur-3xl" />
+              <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
+                <p className="text-sm font-semibold uppercase tracking-wider text-sky-100/80">Volgende stap</p>
+                <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+                  Herkenbaar? Laten we kijken wat er beter kan.
+                </h2>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/76 md:text-lg">
+                  Plan een kennismaking en we laten je zien hoe jouw website deze problemen kan oplossen.
+                </p>
+                <div className="mt-8 flex justify-center">
+                  <Link
+                    to="/gratis-kennismaking"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white/92 px-8 py-4 text-base font-semibold text-primary shadow-sm shadow-black/10 transition-colors hover:bg-white"
+                  >
+                    Plan een kennismaking
+                    <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </div>
             </div>
           </AnimatedSection>
         </div>

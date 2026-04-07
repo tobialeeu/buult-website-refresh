@@ -78,39 +78,22 @@ const pricingPlans: PricingPlan[] = [
   },
 ];
 
-const pricingHighlights = [
-  "Vaste projectprijzen",
-  "Geen verborgen kosten",
-  "Direct contact met Buult",
-];
 
 export default function Tarieven() {
   return (
     <Layout>
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10 py-20 md:py-28">
-        <div className="pointer-events-none absolute left-[-6rem] top-8 h-48 w-48 rounded-full bg-sky-300/30 blur-3xl" />
-        <div className="pointer-events-none absolute right-[-8rem] top-[-4rem] h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-
-        <div className="container relative">
-          <AnimatedSection className="mx-auto max-w-3xl text-center">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-primary">Tarieven</p>
-            <h1 className="text-4xl font-extrabold leading-[1.05] text-foreground text-balance md:text-5xl lg:text-6xl">
-              Een oplossing voor <span className="text-primary">ieder budget</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Of je nu net begint of al jaren onderneemt, we hebben een pakket dat past bij jouw fase.
-              We werken met vaste projectprijzen, zodat je vooraf weet waar je aan toe bent.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              {pricingHighlights.map((highlight) => (
-                <span
-                  key={highlight}
-                  className="rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-sm font-semibold text-foreground shadow-sm"
-                >
-                  {highlight}
-                </span>
-              ))}
+      <section className="bg-gradient-to-br from-primary/5 via-background to-primary/10 py-12 md:py-16">
+        <div className="container">
+          <AnimatedSection>
+            <div className="max-w-2xl">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-primary">Tarieven</p>
+              <h1 className="text-4xl md:text-5xl font-extrabold leading-[1.1] text-foreground text-balance">
+                Een oplossing voor <span className="text-primary">ieder budget</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                Of je nu net begint of al jaren onderneemt, we hebben een pakket dat past bij jouw fase.
+                We werken met vaste projectprijzen, zodat je vooraf weet waar je aan toe bent.
+              </p>
             </div>
           </AnimatedSection>
         </div>

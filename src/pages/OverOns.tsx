@@ -23,7 +23,7 @@ export default function OverOns() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+      <section className="py-12 md:py-16 bg-gradient-to-br from-primary/5 via-background to-primary/10">
         <div className="container">
           <AnimatedSection>
             <div className="max-w-2xl">
