@@ -84,7 +84,7 @@ export default function ShowcaseCrack({ imageSrc, imageAlt, revealContent, child
         style={{ height: "100vh" }}
       >
         {/* Revealed content — sits behind the image halves, scrolls into view as image cracks */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 overflow-hidden px-4 py-6">
+        <div className="absolute inset-0 flex flex-col items-center justify-start gap-4 overflow-hidden px-4 pt-20 pb-6 md:pt-24">
           <motion.div style={{ opacity: revealOpacity, y: revealY }}>
             {revealContent}
           </motion.div>
