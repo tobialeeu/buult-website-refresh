@@ -125,6 +125,8 @@ describe("Contact form integrations", () => {
   });
 
   it("shows a submit error when the provider rejects the request", async () => {
+    import.meta.env.VITE_TURNSTILE_SITE_KEY = "";
+
     const fetchMock = vi.fn().mockResolvedValue({
       ok: false,
       status: 429,
@@ -151,5 +153,48 @@ describe("Contact form integrations", () => {
       ),
     );
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("submits the kennismaking form with a normalized payload", async () => {
+    import.meta.env.VITE_TURNSTILE_SITE_KEY = "";
+
+    let submittedEntries: Record<string, FormDataEntryValue> = {};
+    const fetchMock = vi.fn().mockImplementation(async (_url, requestInit) => {
+      const formData = requestInit?.body as FormData;
+      submittedEntries = Object.fromEntries(formData.entries());
+
+      return {
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "application/json" }),
+        json: async () => ({ next: "/thanks" }),
+      } satisfies Partial<Response>;
+    });
+
+    globalThis.fetch = fetchMock as typeof fetch;
+    window.history.pushState({}, "", "/gratis-kennismaking");
+
+    render(<App />);
+
+    fireEvent.change(await screen.findByLabelText(/bedrijfsnaam \*/i), { target: { value: "Buult" } });
+    fireEvent.change(screen.getByLabelText(/e-mailadres \*/i), { target: { value: "test@buult.nl" } });
+    fireEvent.change(screen.getByLabelText(/telefoonnummer \*/i), { target: { value: "0612345678" } });
+    fireEvent.change(screen.getByLabelText(/beste tijd om te bellen \*/i), {
+      target: { value: "Morgen 10:00" },
+    });
+    fireEvent.submit(screen.getByRole("button", { name: /bel mij terug/i }).closest("form")!);
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    expect(submittedEntries.form_type).toBe("kennismaking");
+    expect(submittedEntries.source_path).toBe("/gratis-kennismaking");
+    expect(submittedEntries.company).toBe("Buult");
+    expect(submittedEntries.email).toBe("test@buult.nl");
+    expect(submittedEntries.phone).toBe("0612345678");
+    expect(submittedEntries.best_call_time).toBe("Morgen 10:00");
+    expect(submittedEntries.message).toBe(
+      "Aanvraag gratis kennismakingsgesprek.\nBedrijfsnaam: Buult\nE-mailadres: test@buult.nl\nTelefoonnummer: 0612345678\nBeste tijd om te bellen: Morgen 10:00",
+    );
+    expect(mockedToast.success).toHaveBeenCalledWith("Bedankt! We bellen je zo snel mogelijk terug.");
   });
 });

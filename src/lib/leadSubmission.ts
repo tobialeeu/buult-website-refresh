@@ -2,6 +2,8 @@ type LeadSubmissionResult =
   | { ok: true }
   | { ok: false; message: string };
 
+const DEFAULT_FORMSPREE_ENDPOINT = "https://formspree.io/f/mjgplpap";
+const DEFAULT_TURNSTILE_SITE_KEY = "0x4AAAAAAC1xU-9xX3TbGYvC";
 const DEFAULT_SUBMISSION_ERROR =
   "Versturen lukt nu niet. Probeer het later opnieuw of neem direct contact op.";
 
@@ -37,18 +39,24 @@ async function parseJsonSafely(response: Response): Promise<unknown> {
 }
 
 export function getLeadFormConfig() {
+  const configuredEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT?.trim();
+  const configuredTurnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
+
   return {
-    formspreeEndpoint: import.meta.env.VITE_FORMSPREE_ENDPOINT?.trim() ?? "",
-    turnstileSiteKey: import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() ?? "",
+    formspreeEndpoint: configuredEndpoint || DEFAULT_FORMSPREE_ENDPOINT,
+    turnstileSiteKey:
+      configuredTurnstileSiteKey || (import.meta.env.DEV ? "" : DEFAULT_TURNSTILE_SITE_KEY),
   };
 }
 
 export async function submitLead({
   form,
   turnstileToken,
+  extraFields,
 }: {
   form: HTMLFormElement;
   turnstileToken?: string;
+  extraFields?: Record<string, string>;
 }): Promise<LeadSubmissionResult> {
   const { formspreeEndpoint } = getLeadFormConfig();
 
@@ -64,6 +72,12 @@ export async function submitLead({
 
   if (turnstileToken) {
     formData.set("cf-turnstile-response", turnstileToken);
+  }
+
+  if (extraFields) {
+    Object.entries(extraFields).forEach(([key, value]) => {
+      formData.set(key, value);
+    });
   }
 
   try {

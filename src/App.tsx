@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, type ReactNode } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import Index from "./pages/Index";
 const OverOns = lazy(() => import("./pages/OverOns"));
@@ -39,6 +39,7 @@ const App = () => (
         <Route path="/tarieven" element={<LazyRoute><Tarieven /></LazyRoute>} />
         <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
         <Route path="/gratis-kennismaking" element={<LazyRoute><Kennismaking /></LazyRoute>} />
+        <Route path="/gratiskennismaking" element={<Navigate to="/gratis-kennismaking" replace />} />
         <Route path="/studies" element={<LazyRoute><Studies /></LazyRoute>} />
         <Route path="/privacy" element={<LazyRoute><Privacy /></LazyRoute>} />
         <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />

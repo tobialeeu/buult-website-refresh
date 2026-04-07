@@ -35,6 +35,7 @@ export default function Contact() {
   const { turnstileSiteKey } = getLeadFormConfig();
   const selectedPackage = packagePrefills[new URLSearchParams(location.search).get("pakket") ?? ""];
   const sourcePath = `${location.pathname}${location.search}`;
+  const isTurnstilePending = Boolean(turnstileSiteKey) && !turnstileToken;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +46,7 @@ export default function Contact() {
       return;
     }
 
-    if (turnstileSiteKey && !turnstileToken) {
+    if (isTurnstilePending) {
       toast.error("Rond eerst de spamcontrole af voordat je het formulier verstuurt.");
       return;
     }
@@ -188,6 +189,11 @@ export default function Contact() {
                     onTokenChange={setTurnstileToken}
                   />
                 ) : null}
+                {isTurnstilePending ? (
+                  <p className="text-sm text-muted-foreground">
+                    Wacht heel even tot de spamcontrole klaar is. Verschijnt er een controle, rond die dan eerst af.
+                  </p>
+                ) : null}
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -202,8 +208,8 @@ export default function Contact() {
                 </label>
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
+                  disabled={isSubmitting || isTurnstilePending}
+                  className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Bezig met versturen..." : "Verstuur bericht"}
                 </button>
