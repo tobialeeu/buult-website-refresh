@@ -4,6 +4,7 @@ import { ArrowRight, Clock, HelpCircle, Layers, MessageCircle, PencilRuler, Phon
 import { motion, useReducedMotion } from "framer-motion";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
+import ShowcaseCrack from "@/components/ShowcaseCrack";
 import homeShowcaseImg from "@/assets/buult-home-showcase.jpg";
 import overOnsImg from "@/assets/over-ons-founders.jpg";
 import softwareResendLogo from "@/assets/software-resend.svg";
@@ -372,71 +373,47 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Showcase image */}
-      <section className="bg-card py-6 md:py-8">
-        <div className="container">
-          <AnimatedSection>
-            <div className="mx-auto max-w-5xl">
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-border/70 bg-slate-950 shadow-[0_8px_30px_-8px_rgba(15,23,42,0.15)]">
-                <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.18),transparent_35%),linear-gradient(to_bottom,rgba(15,23,42,0.02),rgba(15,23,42,0.18))]" />
-                <img
-                  className="aspect-[16/9] w-full object-cover"
-                  src={homeShowcaseImg}
-                  alt="Buult website getoond op een desktop, tablet en telefoon"
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  width={1536}
-                  height={1024}
-                />
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Herken je dit? */}
-      <section className="bg-card py-16 md:py-20">
-        <div className="container">
-          <div className="mx-auto max-w-3xl">
-            <AnimatedSection>
-              <div className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-wider text-primary">Herken je dit?</p>
-                <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">
-                  Zonder goede website loop je klanten mis
-                </h2>
-              </div>
-            </AnimatedSection>
-
-            <div className="mt-10 space-y-4">
-              {homeProblems.map((problem, i) => {
-                const Icon = problem.icon;
-                return (
-                  <AnimatedSection key={problem.text} delay={i * 0.06}>
-                    <div className="flex items-center gap-4 rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-4 shadow-[0_22px_60px_-48px_rgba(15,23,42,0.42)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_-50px_rgba(15,23,42,0.45)] md:px-6 md:py-5">
-                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${problem.bg}`}>
-                        <Icon size={20} strokeWidth={1.8} className={problem.color} />
-                      </div>
-                      <p className="text-base font-semibold text-slate-900 md:text-lg">{problem.text}</p>
-                    </div>
-                  </AnimatedSection>
-                );
-              })}
-            </div>
-
-            <AnimatedSection delay={0.35}>
-              <div className="mt-8 flex justify-center">
-                <Link
-                  to="/studies"
-                  className="inline-flex items-center gap-2 text-primary font-semibold hover:underline"
+      {/* Showcase crack animation — image splits open revealing "Herken je dit?" + cards */}
+      <ShowcaseCrack
+        imageSrc={homeShowcaseImg}
+        imageAlt="Buult website getoond op een desktop, tablet en telefoon"
+        revealContent={
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary">Herken je dit?</p>
+            <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">
+              Zonder goede website loop je klanten mis
+            </h2>
+          </div>
+        }
+      >
+        <div className="space-y-5">
+          <div className="mx-auto max-w-2xl space-y-3">
+            {homeProblems.map((problem) => {
+              const Icon = problem.icon;
+              return (
+                <div
+                  key={problem.text}
+                  className="flex flex-col items-center justify-center gap-3 rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-4 text-center shadow-[0_22px_60px_-48px_rgba(15,23,42,0.42)] md:px-6"
                 >
-                  Lees meer <ArrowRight size={16} />
-                </Link>
-              </div>
-            </AnimatedSection>
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${problem.bg}`}>
+                    <Icon size={20} strokeWidth={1.8} className={problem.color} />
+                  </div>
+                  <p className="max-w-[28ch] text-base font-semibold text-slate-900 md:text-lg">{problem.text}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex justify-center">
+            <Link
+              to="/studies"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:underline"
+            >
+              Lees meer <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
-      </section>
+      </ShowcaseCrack>
 
       {/* Media placeholder */}
       <section className="bg-card py-8 md:py-10">
