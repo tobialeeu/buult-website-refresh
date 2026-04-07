@@ -6,6 +6,7 @@ const OverOns = lazy(() => import("./pages/OverOns"));
 const HoeWerkenWij = lazy(() => import("./pages/HoeWerkenWij"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Kennismaking = lazy(() => import("./pages/Kennismaking"));
+const Tarieven = lazy(() => import("./pages/Tarieven"));
 const Studies = lazy(() => import("./pages/Studies"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -35,6 +36,7 @@ const App = () => (
         <Route path="/" element={<Index />} />
         <Route path="/over-ons" element={<LazyRoute><OverOns /></LazyRoute>} />
         <Route path="/hoe-werken-wij" element={<LazyRoute><HoeWerkenWij /></LazyRoute>} />
+        <Route path="/tarieven" element={<LazyRoute><Tarieven /></LazyRoute>} />
         <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
         <Route path="/gratis-kennismaking" element={<LazyRoute><Kennismaking /></LazyRoute>} />
         <Route path="/studies" element={<LazyRoute><Studies /></LazyRoute>} />

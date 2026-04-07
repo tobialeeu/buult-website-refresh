@@ -1,11 +1,33 @@
 import { useState, FormEvent } from "react";
+import { useLocation } from "react-router-dom";
 import { Phone, Mail, Linkedin } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { toast } from "sonner";
 
+const packagePrefills: Record<string, { title: string; message: string }> = {
+  "website-quickscan": {
+    title: "Website Quickscan",
+    message: "Ik wil graag een Website Quickscan aanvragen voor mijn huidige website.",
+  },
+  "complete-website": {
+    title: "Complete Website",
+    message: "Ik wil graag meer weten over een Complete Website en de gratis eerste versie.",
+  },
+  "complete-webshop": {
+    title: "Complete Webshop",
+    message: "Ik wil graag meer weten over een Complete Webshop en de gratis eerste versie.",
+  },
+  "offerte-op-maat": {
+    title: "Vrijblijvende offerte",
+    message: "Ik wil graag een vrijblijvende offerte op maat ontvangen.",
+  },
+};
+
 export default function Contact() {
   const [agreed, setAgreed] = useState(false);
+  const location = useLocation();
+  const selectedPackage = packagePrefills[new URLSearchParams(location.search).get("pakket") ?? ""];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,6 +64,16 @@ export default function Contact() {
             {/* Form */}
             <AnimatedSection className="md:col-span-3">
               <form onSubmit={handleSubmit} className="space-y-6">
+                {selectedPackage ? (
+                  <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                    <p className="text-sm font-semibold text-foreground">
+                      Je aanvraag gaat over: {selectedPackage.title}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                      We hebben alvast een passend conceptbericht ingevuld. Pas dit gerust aan met je eigen wensen.
+                    </p>
+                  </div>
+                ) : null}
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Naam *</label>
@@ -90,6 +122,7 @@ export default function Contact() {
                     required
                     maxLength={1000}
                     rows={5}
+                    defaultValue={selectedPackage?.message}
                     className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                     placeholder="Vertel kort waar we je mee kunnen helpen..."
                   />
