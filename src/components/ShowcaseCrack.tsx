@@ -84,19 +84,21 @@ export default function ShowcaseCrack({ imageSrc, imageAlt, revealContent, child
         style={{ height: "100vh" }}
       >
         {/* Revealed content — sits behind the image halves, scrolls into view as image cracks */}
-        <div className="absolute inset-0 flex flex-col items-center justify-start gap-4 overflow-hidden px-4 pt-20 pb-6 md:pt-24">
-          <motion.div style={{ opacity: revealOpacity, y: revealY }}>
-            {revealContent}
-          </motion.div>
-
-          {children && (
-            <motion.div
-              className="w-full max-w-3xl"
-              style={{ opacity: cardsOpacity, y: cardsY }}
-            >
-              {children}
+        <div className="absolute inset-0 flex flex-col items-center overflow-hidden px-4 pt-20 pb-6 md:pt-24">
+          <div className="my-auto flex w-full max-w-3xl flex-col items-center gap-4">
+            <motion.div className="shrink-0" style={{ opacity: revealOpacity, y: revealY }}>
+              {revealContent}
             </motion.div>
-          )}
+
+            {children && (
+              <motion.div
+                className="w-full"
+                style={{ opacity: cardsOpacity, y: cardsY }}
+              >
+                {children}
+              </motion.div>
+            )}
+          </div>
         </div>
 
         {/* Top half of image */}

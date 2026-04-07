@@ -90,6 +90,10 @@ function getCarouselSlot(index: number, activeIndex: number, total: number) {
 
 const showHomeAboutTeaser = true;
 
+// ↓ Change this one value to adjust vertical spacing between all page sections
+const sectionPy = "py-16 md:py-20";
+const whyBuultSectionSpacing = "pt-28 pb-8 md:pt-36 md:pb-10";
+
 function scheduleIdlePrefetch(callback: () => void) {
   if (typeof window === "undefined") {
     const timeoutId = setTimeout(callback, 0);
@@ -107,7 +111,7 @@ function scheduleIdlePrefetch(callback: () => void) {
 
 function WebsiteShowcaseFallback() {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-5xl">
       <div className="mb-8">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
         <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
@@ -267,7 +271,7 @@ export default function Index() {
                   Je ziet je website al voordat je 'ja' zegt
                 </h1>
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  We bouwen een gratis versie van je website. Pas als je het ziet en het klopt, ga je verder. Directe lijnen, vaste prijs, geen verrassingen.
+                  We bouwen een gratis versie van je website. Pas als je het ziet en het klopt, gaan we verder.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                   <Link
@@ -331,7 +335,7 @@ export default function Index() {
       </section>
 
       {/* Waarom Buult */}
-      <section className="bg-card py-16 md:py-20">
+      <section className={`bg-card ${whyBuultSectionSpacing}`}>
         <div className="container">
           <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start">
             <AnimatedSection>
@@ -386,19 +390,19 @@ export default function Index() {
           </div>
         }
       >
-        <div className="space-y-5">
-          <div className="mx-auto max-w-2xl space-y-3">
+        <div className="space-y-4">
+          <div className="space-y-2.5">
             {homeProblems.map((problem) => {
               const Icon = problem.icon;
               return (
                 <div
                   key={problem.text}
-                  className="flex flex-col items-center justify-center gap-3 rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-4 text-center shadow-[0_22px_60px_-48px_rgba(15,23,42,0.42)] md:px-6"
+                  className="flex items-center gap-4 rounded-[1.75rem] border border-slate-200/60 bg-white px-5 py-4 shadow-[0_2px_16px_rgba(15,23,42,0.07),0_1px_3px_rgba(15,23,42,0.05)] md:px-7 md:py-5"
                 >
                   <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${problem.bg}`}>
                     <Icon size={20} strokeWidth={1.8} className={problem.color} />
                   </div>
-                  <p className="max-w-[28ch] text-base font-semibold text-slate-900 md:text-lg">{problem.text}</p>
+                  <p className="text-base font-semibold text-slate-900 md:text-lg">{problem.text}</p>
                 </div>
               );
             })}
@@ -416,7 +420,7 @@ export default function Index() {
       </ShowcaseCrack>
 
       {/* Media placeholder */}
-      <section className="bg-card py-8 md:py-10">
+      <section className={`bg-card ${sectionPy}`}>
         <div className="container">
           <AnimatedSection>
             <DeferredWebsiteShowcase />
@@ -425,7 +429,7 @@ export default function Index() {
       </section>
 
       {showHomeAboutTeaser && (
-        <section className="bg-card py-16 md:py-20">
+        <section className={`bg-card ${sectionPy}`}>
           <div className="container">
             <AnimatedSection>
               <div className="grid items-start gap-8 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-10">
@@ -476,7 +480,7 @@ export default function Index() {
       )}
 
       {/* Software strip */}
-      <section className="bg-card py-8 md:py-10">
+      <section className={`bg-card ${sectionPy}`}>
         <div className="container">
           <AnimatedSection>
             <div className="relative py-2">
@@ -547,7 +551,7 @@ export default function Index() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-card py-16 md:py-20">
+      <section className={`bg-card ${sectionPy}`}>
         <div className="container">
           <AnimatedSection>
             <div className="relative overflow-hidden rounded-[2.5rem] bg-primary px-6 py-8 text-primary-foreground shadow-[0_30px_90px_-50px_rgba(37,99,235,0.9)] md:px-10 md:py-10">

@@ -390,7 +390,7 @@ export default function WebsiteShowcaseCarousel() {
 
   if (websiteShowcaseSlides.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
           <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
@@ -406,7 +406,7 @@ export default function WebsiteShowcaseCarousel() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-5xl">
       <div className="mb-8">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
         <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
