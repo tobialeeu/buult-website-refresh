@@ -21,7 +21,7 @@ export default function Kennismaking() {
                 Plan een gratis kennismakingsgesprek
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Vul je telefoonnummer in, dan bellen we je kort terug om te kijken of er een match is.
+                Vul je contact- en bedrijfsgegevens in, dan bellen we je kort terug om te kijken of er een match is.
               </p>
             </div>
           </AnimatedSection>
@@ -33,26 +33,66 @@ export default function Kennismaking() {
           <AnimatedSection>
             <div className="max-w-xl mx-auto rounded-2xl border border-border bg-card p-8 md:p-10 shadow-card">
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Telefoonnummer</label>
-                  <input
-                    type="tel"
-                    required
-                    maxLength={20}
-                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="06 12345678"
-                  />
-                </div>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
+                      Bedrijfsnaam *
+                    </label>
+                    <input
+                      id="companyName"
+                      name="companyName"
+                      type="text"
+                      required
+                      maxLength={100}
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      placeholder="Je bedrijf"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Beste tijd om te bellen</label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={100}
-                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="Bijv. morgen tussen 10:00 en 12:00"
-                  />
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                      E-mailadres *
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      maxLength={255}
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      placeholder="je@email.nl"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                      Telefoonnummer *
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      maxLength={20}
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      placeholder="06 12345678"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="bestCallTime" className="block text-sm font-medium text-foreground mb-2">
+                      Beste tijd om te bellen *
+                    </label>
+                    <input
+                      id="bestCallTime"
+                      name="bestCallTime"
+                      type="text"
+                      required
+                      maxLength={100}
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      placeholder="Bijv. morgen tussen 10:00 en 12:00"
+                    />
+                  </div>
                 </div>
 
                 <button
