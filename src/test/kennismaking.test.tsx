@@ -21,6 +21,22 @@ vi.mock("framer-motion", async () => {
 import App from "@/App";
 
 describe("Kennismaking page", () => {
+  const originalTurnstileKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+  beforeEach(() => {
+    import.meta.env.VITE_TURNSTILE_SITE_KEY = "turnstile-site-key";
+    window.turnstile = {
+      render: () => "widget-id",
+      reset: vi.fn(),
+      remove: vi.fn(),
+    };
+  });
+
+  afterEach(() => {
+    import.meta.env.VITE_TURNSTILE_SITE_KEY = originalTurnstileKey;
+    delete window.turnstile;
+  });
+
   it("renders the required fields for the gratis kennismaking route", async () => {
     window.history.pushState({}, "", "/gratis-kennismaking");
 
@@ -42,5 +58,6 @@ describe("Kennismaking page", () => {
     expect(emailInput).toHaveAttribute("type", "email");
     expect(phoneInput).toHaveAttribute("type", "tel");
     expect(bestCallTimeInput).toHaveAttribute("type", "text");
+    expect(screen.getByTestId("turnstile-widget")).toBeInTheDocument();
   });
 });

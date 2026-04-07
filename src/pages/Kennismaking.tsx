@@ -1,13 +1,45 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
+import TurnstileField from "@/components/TurnstileField";
+import { getLeadFormConfig, submitLead } from "@/lib/leadSubmission";
 import { toast } from "sonner";
 
 export default function Kennismaking() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const location = useLocation();
+  const { turnstileSiteKey } = getLeadFormConfig();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+
+    if (turnstileSiteKey && !turnstileToken) {
+      toast.error("Rond eerst de spamcontrole af voordat je het formulier verstuurt.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const result = await submitLead({
+      form,
+      turnstileToken,
+    });
+
+    setIsSubmitting(false);
+
+    if (!result.ok) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.success("Bedankt! We bellen je zo snel mogelijk terug.");
-    (e.target as HTMLFormElement).reset();
+    form.reset();
+    setTurnstileToken("");
+    setTurnstileResetKey((currentValue) => currentValue + 1);
   };
 
   return (
@@ -33,6 +65,8 @@ export default function Kennismaking() {
           <AnimatedSection>
             <div className="max-w-xl mx-auto rounded-2xl border border-border bg-card p-8 md:p-10 shadow-card">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="form_type" value="kennismaking" />
+                <input type="hidden" name="source_path" value={location.pathname} />
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="companyName" className="block text-sm font-medium text-foreground mb-2">
@@ -94,12 +128,20 @@ export default function Kennismaking() {
                     />
                   </div>
                 </div>
+                {turnstileSiteKey ? (
+                  <TurnstileField
+                    siteKey={turnstileSiteKey}
+                    resetKey={turnstileResetKey}
+                    onTokenChange={setTurnstileToken}
+                  />
+                ) : null}
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
                 >
-                  Bel mij terug
+                  {isSubmitting ? "Bezig met versturen..." : "Bel mij terug"}
                 </button>
               </form>
             </div>

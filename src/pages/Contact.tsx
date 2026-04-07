@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { Phone, Mail, Linkedin } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
+import TurnstileField from "@/components/TurnstileField";
+import { getLeadFormConfig, submitLead } from "@/lib/leadSubmission";
 import { toast } from "sonner";
 
 const packagePrefills: Record<string, { title: string; message: string }> = {
@@ -26,18 +28,47 @@ const packagePrefills: Record<string, { title: string; message: string }> = {
 
 export default function Contact() {
   const [agreed, setAgreed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const location = useLocation();
+  const { turnstileSiteKey } = getLeadFormConfig();
   const selectedPackage = packagePrefills[new URLSearchParams(location.search).get("pakket") ?? ""];
+  const sourcePath = `${location.pathname}${location.search}`;
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+
     if (!agreed) {
       toast.error("Ga akkoord met het privacybeleid om het formulier te versturen.");
       return;
     }
+
+    if (turnstileSiteKey && !turnstileToken) {
+      toast.error("Rond eerst de spamcontrole af voordat je het formulier verstuurt.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const result = await submitLead({
+      form,
+      turnstileToken,
+    });
+
+    setIsSubmitting(false);
+
+    if (!result.ok) {
+      toast.error(result.message);
+      return;
+    }
+
     toast.success("Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.");
-    (e.target as HTMLFormElement).reset();
+    form.reset();
     setAgreed(false);
+    setTurnstileToken("");
+    setTurnstileResetKey((currentValue) => currentValue + 1);
   };
 
   return (
@@ -64,6 +95,9 @@ export default function Contact() {
             {/* Form */}
             <AnimatedSection className="md:col-span-3">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="form_type" value="contact" />
+                <input type="hidden" name="source_path" value={sourcePath} />
+                {selectedPackage ? <input type="hidden" name="pakket" value={selectedPackage.title} /> : null}
                 {selectedPackage ? (
                   <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
                     <p className="text-sm font-semibold text-foreground">
@@ -76,8 +110,12 @@ export default function Contact() {
                 ) : null}
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Naam *</label>
+                    <label htmlFor="contactName" className="block text-sm font-medium text-foreground mb-2">
+                      Naam *
+                    </label>
                     <input
+                      id="contactName"
+                      name="name"
                       type="text"
                       required
                       maxLength={100}
@@ -86,8 +124,12 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">E-mailadres *</label>
+                    <label htmlFor="contactEmail" className="block text-sm font-medium text-foreground mb-2">
+                      E-mailadres *
+                    </label>
                     <input
+                      id="contactEmail"
+                      name="email"
                       type="email"
                       required
                       maxLength={255}
@@ -98,8 +140,12 @@ export default function Contact() {
                 </div>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Telefoonnummer</label>
+                    <label htmlFor="contactPhone" className="block text-sm font-medium text-foreground mb-2">
+                      Telefoonnummer
+                    </label>
                     <input
+                      id="contactPhone"
+                      name="phone"
                       type="tel"
                       maxLength={20}
                       className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
@@ -107,8 +153,12 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Bedrijfsnaam</label>
+                    <label htmlFor="contactCompany" className="block text-sm font-medium text-foreground mb-2">
+                      Bedrijfsnaam
+                    </label>
                     <input
+                      id="contactCompany"
+                      name="company"
                       type="text"
                       maxLength={100}
                       className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
@@ -117,8 +167,12 @@ export default function Contact() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Bericht *</label>
+                  <label htmlFor="contactMessage" className="block text-sm font-medium text-foreground mb-2">
+                    Bericht *
+                  </label>
                   <textarea
+                    id="contactMessage"
+                    name="message"
                     required
                     maxLength={1000}
                     rows={5}
@@ -127,6 +181,13 @@ export default function Contact() {
                     placeholder="Vertel kort waar we je mee kunnen helpen..."
                   />
                 </div>
+                {turnstileSiteKey ? (
+                  <TurnstileField
+                    siteKey={turnstileSiteKey}
+                    resetKey={turnstileResetKey}
+                    onTokenChange={setTurnstileToken}
+                  />
+                ) : null}
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
@@ -141,9 +202,10 @@ export default function Contact() {
                 </label>
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-sm hover:bg-accent transition-colors"
                 >
-                  Verstuur bericht
+                  {isSubmitting ? "Bezig met versturen..." : "Verstuur bericht"}
                 </button>
               </form>
             </AnimatedSection>
