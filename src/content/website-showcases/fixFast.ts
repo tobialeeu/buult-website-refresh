@@ -39,9 +39,9 @@ const fixFastHtml = String.raw`<!DOCTYPE html>
             background-color: var(--background-main);
             line-height: 1.7;
             font-size: 16px;
-            min-width: 1280px;
         }
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+        img { display: block; max-width: 100%; }
+        .container { width: min(1140px, 100%); margin: 0 auto; padding: 0 20px; }
         section { padding: 90px 0; overflow: hidden; }
         i[class^="bi"], i[class*=" bi-"] {
             display: inline-flex;
@@ -104,9 +104,9 @@ const fixFastHtml = String.raw`<!DOCTYPE html>
             padding: 220px 0 160px 0;
             text-align: center;
         }
-        .hero h1 { font-family: var(--font-heading); font-weight: 800; font-size: 4rem; color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
+        .hero h1 { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.75rem, 7vw, 4rem); color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
         .hero .subtitle { font-size: 1.25rem; max-width: 700px; margin: 0 auto 40px auto; opacity: 0.9; line-height: 1.6; }
-        .typing-effect-container { height: 35px; font-size: 1.35rem; color: var(--accent-orange); font-weight: 500; margin-bottom: 30px; }
+        .typing-effect-container { min-height: 35px; font-size: clamp(1rem, 2.8vw, 1.35rem); color: var(--accent-orange); font-weight: 500; margin-bottom: 30px; }
         .hero .cta-buttons { display: flex; justify-content: center; gap: 20px; }
 
         .trust-bar { background-color: var(--white); padding: 40px 0; border-bottom: 1px solid var(--border-color); position: relative; z-index: 10; margin-top: -30px; box-shadow: var(--shadow-md); border-radius: var(--border-radius); max-width: 1100px; margin-left: auto; margin-right: auto; }
@@ -228,16 +228,50 @@ const fixFastHtml = String.raw`<!DOCTYPE html>
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; text-align: center; font-size: 0.9rem; }
 
         @media (max-width: 860px) {
-            .main-header .container { flex-wrap: wrap; justify-content: center; }
-            .main-nav ul { flex-wrap: wrap; justify-content: center; gap: 10px 15px; margin: 10px 0; }
+            body { font-size: 15px; }
+            .container { padding: 0 16px; }
+            section { padding: 72px 0; }
+            .section-title { font-size: 2rem; }
+            .section-subtitle { font-size: 1rem; margin-bottom: 32px; }
+            .btn { width: 100%; padding: 14px 22px; }
+            .main-header { padding: 12px 0; }
+            .main-header .container { flex-wrap: wrap; justify-content: center; gap: 14px; }
+            .logo { font-size: 1.55rem; }
+            .main-nav { width: 100%; }
+            .main-nav ul { flex-wrap: wrap; justify-content: center; gap: 10px 15px; margin: 4px 0; }
             .main-nav li { margin-left: 0; }
-            .hero { padding: 240px 20px 120px 20px; }
-            .hero h1 { font-size: 2.5rem; }
-            .intro-section .container { flex-direction: column; gap: 40px; }
+            .hero { padding: 210px 0 92px 0; }
+            .hero .subtitle { font-size: 1rem; margin-bottom: 28px; }
+            .typing-effect-container { min-height: 56px; margin-bottom: 24px; }
+            .hero .cta-buttons { flex-direction: column; gap: 14px; }
+            .trust-bar { border-radius: 0; margin-top: 0; padding: 24px 0; }
+            .trust-bar .container { gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .intro-section { padding-top: 88px; }
+            .intro-section .container { flex-direction: column; gap: 32px; }
             .intro-image::before { display: none; }
-            .trust-bar { border-radius: 0; margin-top: 0; }
+            .intro-image img { height: 320px; }
+            .services-grid,
+            .why-us-grid { grid-template-columns: 1fr; gap: 22px; }
+            .service-content { padding: 24px; }
+            .why-us-item { padding: 0; gap: 16px; }
+            .review-card { padding: 28px 24px; }
+            .review-card::before { font-size: 4rem; top: 12px; right: 14px; }
+            .final-cta { padding: 56px 24px; }
+            .final-cta h2 { font-size: 1.9rem; }
+            .final-cta p { font-size: 1rem; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-            .hero .cta-buttons { flex-direction: column; }
+        }
+
+        @media (max-width: 520px) {
+            .main-header { position: sticky; top: 0; }
+            .hero { padding-top: 176px; }
+            .hero h1 { font-size: 2.2rem; }
+            .logo { font-size: 1.4rem; }
+            .main-nav a { font-size: 0.92rem; }
+            .trust-bar .container { grid-template-columns: 1fr; }
+            .why-us-item { flex-direction: column; }
+            .why-us-item .icon { width: 52px; height: 52px; font-size: 1.75rem; }
+            .reviewer-info { align-items: flex-start; }
         }
     </style>
 

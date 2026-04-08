@@ -2,7 +2,430 @@ import { showcaseFontsStylesheetHref, showcaseReactStylesheetHref } from "./asse
 import type { WebsiteShowcaseSlide } from "./index";
 import { createBundledReactPreviewDocument } from "./reactPreview";
 
-const wildKinSource = "import React from 'react';\nimport { ArrowRight, Compass, Tent, BookOpen, ChevronRight, MapPin, Wind, Anchor } from 'lucide-react';\n\nconst App = () => {\n  return (\n    <div className=\"font-sans text-[#2C302E] bg-[#F4F1EA] min-h-screen overflow-x-hidden selection:bg-[#C46D4D] selection:text-white\">\n      <style dangerouslySetInnerHTML={{__html: `\n        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap');\n        \n        .font-serif { font-family: 'Cormorant Garamond', serif; }\n        .font-sans { font-family: 'Inter', sans-serif; }\n        \n        .nav-link { position: relative; display: inline-block; }\n        .nav-link::after { content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 1px; bottom: -2px; left: 0; background-color: currentColor; transform-origin: bottom right; transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1); }\n        .nav-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }\n        \n        .img-zoom { transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }\n        .group:hover .img-zoom { transform: scale(1.05); }\n      `}} />\n\n      <header className=\"relative h-screen w-full flex flex-col justify-between\">\n        <div className=\"absolute inset-0 z-0\">\n          <img \n            src=\"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400\" \n            alt=\"Moody Mountain Landscape\" \n            className=\"w-full h-full object-cover object-top\"\n          />\n          <div className=\"absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60\"></div>\n        </div>\n\n        <nav className=\"relative z-10 w-full px-12 py-8 flex justify-between items-center text-white mix-blend-difference\">\n          <div className=\"flex gap-10 text-xs tracking-[0.2em] uppercase font-medium\">\n            <a href=\"#\" className=\"nav-link\">Expeditions</a>\n            <a href=\"#\" className=\"nav-link\">Field Gear</a>\n            <a href=\"#\" className=\"nav-link\">The Journal</a>\n          </div>\n          <div className=\"text-3xl font-serif tracking-widest font-semibold uppercase relative right-12\">\n            Wild Kin\n          </div>\n          <div className=\"flex items-center gap-8 text-xs tracking-[0.2em] uppercase font-medium\">\n            <a href=\"#\" className=\"nav-link\">Our Story</a>\n            <a href=\"#\" className=\"nav-link\">Log In</a>\n            <button className=\"bg-white/10 backdrop-blur-sm border border-white/30 px-6 py-3 hover:bg-white hover:text-black transition-colors duration-300\">\n              Join the Movement\n            </button>\n          </div>\n        </nav>\n\n        <div className=\"relative z-10 px-12 pb-24 max-w-7xl mx-auto w-full flex justify-between items-end\">\n          <div className=\"max-w-2xl text-white\">\n            <p className=\"text-sm tracking-[0.3em] uppercase mb-6 flex items-center gap-4 text-white/80\">\n              <Compass size={16} /> Curated Nature Trips\n            </p>\n            <h1 className=\"text-8xl font-serif leading-[0.9] mb-8 font-medium\">\n              Return to the<br/><i className=\"font-light\">Untamed</i>.\n            </h1>\n            <p className=\"text-lg font-light text-white/80 max-w-md leading-relaxed mb-10\">\n              Curated expeditions, premium field gear, and stories from the edge of the world. For those who seek kinship in the wild.\n            </p>\n            <button className=\"group flex items-center gap-4 text-sm tracking-[0.2em] uppercase border-b border-white pb-2 hover:text-[#C46D4D] hover:border-[#C46D4D] transition-colors duration-300\">\n              Explore Journeys <ArrowRight size={16} className=\"group-hover:translate-x-2 transition-transform duration-300\" />\n            </button>\n          </div>\n          \n          <div className=\"flex flex-col gap-6 text-white/70 text-xs tracking-widest uppercase items-end\">\n            <span className=\"nav-link cursor-pointer\">01 — Patagonia</span>\n            <span className=\"nav-link cursor-pointer\">02 — The Nordics</span>\n            <span className=\"nav-link cursor-pointer\">03 — Saharan Sands</span>\n          </div>\n        </div>\n      </header>\n\n      <section className=\"py-32 px-12 max-w-6xl mx-auto text-center flex flex-col items-center\">\n        <Wind className=\"text-[#C46D4D] mb-8\" size={32} />\n        <h2 className=\"text-4xl md:text-5xl font-serif max-w-4xl leading-tight text-[#2C302E]\">\n          We believe in the restorative power of nature. Wild Kin is more than a brand; it is an invitation to step off the paved road and reconnect with the earth.\n        </h2>\n        <p className=\"mt-8 text-[#6A6D6B] max-w-2xl text-lg font-light leading-relaxed\">\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        </p>\n      </section>\n\n      <section className=\"px-12 py-24 bg-[#EBE7DF]\">\n        <div className=\"max-w-[1440px] mx-auto\">\n          <div className=\"flex justify-between items-end border-b border-[#2C302E]/20 pb-8 mb-16\">\n            <div>\n              <h3 className=\"text-xs tracking-[0.2em] uppercase text-[#6A6D6B] mb-2\">Curated Expeditions</h3>\n              <h2 className=\"text-5xl font-serif text-[#2C302E]\">Featured Journeys</h2>\n            </div>\n            <a href=\"#\" className=\"text-sm tracking-[0.1em] uppercase hover:text-[#C46D4D] transition-colors flex items-center gap-2\">\n              View All <ChevronRight size={16} />\n            </a>\n          </div>\n\n          <div className=\"grid grid-cols-12 gap-8 items-start\">\n            <div className=\"col-span-4 group cursor-pointer\">\n              <div className=\"overflow-hidden aspect-[3/4] mb-6\">\n                <img src=\"https://images.unsplash.com/photo-1518182170546-0766de6b6aa5?auto=format&fit=crop&q=80&w=1200\" alt=\"Patagonia\" className=\"w-full h-full object-cover img-zoom\" />\n              </div>\n              <div className=\"flex justify-between items-start\">\n                <div>\n                  <h4 className=\"text-2xl font-serif mb-2 group-hover:text-[#C46D4D] transition-colors\">The Patagonian Frontier</h4>\n                  <p className=\"text-[#6A6D6B] text-sm font-light\">14 Days • Strenuous • Oct-Mar</p>\n                </div>\n                <span className=\"text-sm font-medium\">From $4,200</span>\n              </div>\n            </div>\n\n            <div className=\"col-span-5 mt-24 group cursor-pointer\">\n              <div className=\"overflow-hidden aspect-square mb-6 relative\">\n                <div className=\"absolute top-4 left-4 z-10 bg-white/90 px-3 py-1 text-[10px] uppercase tracking-widest font-semibold\">Bestseller</div>\n                <img src=\"https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200\" alt=\"Nordic Fjords\" className=\"w-full h-full object-cover img-zoom\" />\n              </div>\n              <div className=\"flex justify-between items-start\">\n                <div>\n                  <h4 className=\"text-2xl font-serif mb-2 group-hover:text-[#C46D4D] transition-colors\">Nordic Fjords & Highlands</h4>\n                  <p className=\"text-[#6A6D6B] text-sm font-light\">9 Days • Moderate • Jun-Sep</p>\n                </div>\n                <span className=\"text-sm font-medium\">From $3,800</span>\n              </div>\n            </div>\n\n            <div className=\"col-span-3 group cursor-pointer\">\n              <div className=\"overflow-hidden aspect-[4/5] mb-6\">\n                <img src=\"https://images.unsplash.com/photo-1504221507732-5246c045949b?auto=format&fit=crop&q=80&w=1200\" alt=\"Sahara\" className=\"w-full h-full object-cover img-zoom\" />\n              </div>\n              <div className=\"flex justify-between items-start\">\n                <div>\n                  <h4 className=\"text-2xl font-serif mb-2 group-hover:text-[#C46D4D] transition-colors\">Saharan Solitude</h4>\n                  <p className=\"text-[#6A6D6B] text-sm font-light\">7 Days • Easy • Nov-Feb</p>\n                </div>\n                <span className=\"text-sm font-medium\">From $2,100</span>\n              </div>\n            </div>\n          </div>\n        </div>\n      </section>\n\n      <section className=\"py-24 px-12 max-w-[1440px] mx-auto\">\n        <div className=\"grid grid-cols-12 gap-16 items-center\">\n          <div className=\"col-span-7 relative\">\n            <div className=\"absolute -left-8 -top-8 w-64 h-64 bg-[#EBE7DF] rounded-full mix-blend-multiply blur-3xl opacity-50 z-0\"></div>\n            <img \n              src=\"https://images.unsplash.com/photo-1504280650346-76472f10b805?auto=format&fit=crop&q=80&w=1200\" \n              alt=\"Premium Outdoor Gear\" \n              className=\"w-full h-[800px] object-cover relative z-10\"\n            />\n            <div className=\"absolute -right-12 bottom-24 bg-white p-8 shadow-xl z-20 max-w-sm\">\n              <Tent className=\"text-[#C46D4D] mb-4\" size={24} />\n              <h4 className=\"font-serif text-2xl mb-2\">Built for the Elements</h4>\n              <p className=\"text-sm text-[#6A6D6B] leading-relaxed\">\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.\n              </p>\n            </div>\n          </div>\n          \n          <div className=\"col-span-5 pl-8\">\n            <h3 className=\"text-xs tracking-[0.2em] uppercase text-[#6A6D6B] mb-4\">Field Essentials</h3>\n            <h2 className=\"text-5xl font-serif text-[#2C302E] mb-12\">Equip Your Journey</h2>\n            \n            <div className=\"space-y-8\">\n              <div className=\"flex items-center gap-6 group cursor-pointer border-b border-[#2C302E]/10 pb-6\">\n                <div className=\"w-24 h-24 bg-[#EBE7DF] overflow-hidden flex-shrink-0\">\n                  <img src=\"https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&q=80&w=400\" alt=\"Backpack\" className=\"w-full h-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-500\" />\n                </div>\n                <div className=\"flex-grow\">\n                  <h5 className=\"font-serif text-xl mb-1 group-hover:text-[#C46D4D] transition-colors\">The Canvas Rucksack</h5>\n                  <p className=\"text-sm text-[#6A6D6B]\">Heavyweight waxed cotton, brass hardware.</p>\n                </div>\n                <div className=\"text-sm font-medium\">$285</div>\n              </div>\n\n              <div className=\"flex items-center gap-6 group cursor-pointer border-b border-[#2C302E]/10 pb-6\">\n                <div className=\"w-24 h-24 bg-[#EBE7DF] overflow-hidden flex-shrink-0\">\n                  <img src=\"https://images.unsplash.com/photo-1520699697851-3dc68aa3a474?auto=format&fit=crop&q=80&w=400\" alt=\"Boots\" className=\"w-full h-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-500\" />\n                </div>\n                <div className=\"flex-grow\">\n                  <h5 className=\"font-serif text-xl mb-1 group-hover:text-[#C46D4D] transition-colors\">Heritage Trail Boots</h5>\n                  <p className=\"text-sm text-[#6A6D6B]\">Vibram sole, full-grain leather upper.</p>\n                </div>\n                <div className=\"text-sm font-medium\">$340</div>\n              </div>\n\n              <div className=\"flex items-center gap-6 group cursor-pointer border-b border-[#2C302E]/10 pb-6\">\n                <div className=\"w-24 h-24 bg-[#EBE7DF] overflow-hidden flex-shrink-0\">\n                  <img src=\"https://images.unsplash.com/photo-1588623565506-6556e4ebce4e?auto=format&fit=crop&q=80&w=400\" alt=\"Jacket\" className=\"w-full h-full object-cover mix-blend-multiply group-hover:scale-110 transition-transform duration-500\" />\n                </div>\n                <div className=\"flex-grow\">\n                  <h5 className=\"font-serif text-xl mb-1 group-hover:text-[#C46D4D] transition-colors\">Expedition Parka</h5>\n                  <p className=\"text-sm text-[#6A6D6B]\">Weather-resistant, ethically sourced down.</p>\n                </div>\n                <div className=\"text-sm font-medium\">$520</div>\n              </div>\n            </div>\n\n            <button className=\"mt-12 group flex items-center gap-4 text-sm tracking-[0.2em] uppercase border-b border-[#2C302E] pb-2 hover:text-[#C46D4D] hover:border-[#C46D4D] transition-colors duration-300\">\n              Shop All Gear <ArrowRight size={16} className=\"group-hover:translate-x-2 transition-transform duration-300\" />\n            </button>\n          </div>\n        </div>\n      </section>\n\n      <section className=\"relative py-40 flex items-center justify-center text-center\">\n        <div className=\"absolute inset-0 z-0\">\n          <img \n            src=\"https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=2400\" \n            alt=\"Deep Forest\" \n            className=\"w-full h-full object-cover\"\n          />\n          <div className=\"absolute inset-0 bg-[#1C1F1D]/80 mix-blend-multiply\"></div>\n        </div>\n        \n        <div className=\"relative z-10 max-w-4xl px-12 text-white\">\n          <Anchor className=\"mx-auto mb-8 text-[#D4C9A8]\" size={32} />\n          <h2 className=\"text-6xl font-serif leading-tight mb-8\">\n            \"To be whole. To be complete. Wildness reminds us what it means to be human, whole, and engaged with the world.\"\n          </h2>\n          <p className=\"text-sm tracking-[0.2em] uppercase text-[#D4C9A8] font-medium\">\n            Our Sustainability Commitment\n          </p>\n        </div>\n      </section>\n\n      <section className=\"py-32 px-12 max-w-[1440px] mx-auto\">\n        <div className=\"flex justify-between items-end border-b border-[#2C302E]/20 pb-8 mb-16\">\n          <div>\n            <h3 className=\"text-xs tracking-[0.2em] uppercase text-[#6A6D6B] mb-2\">Dispatches from the Field</h3>\n            <h2 className=\"text-5xl font-serif text-[#2C302E]\">The Journal</h2>\n          </div>\n          <a href=\"#\" className=\"text-sm tracking-[0.1em] uppercase hover:text-[#C46D4D] transition-colors flex items-center gap-2\">\n            Read All Stories <ChevronRight size={16} />\n          </a>\n        </div>\n\n        <div className=\"grid grid-cols-12 gap-12\">\n          <div className=\"col-span-8 group cursor-pointer\">\n            <div className=\"overflow-hidden aspect-[16/9] mb-8 relative\">\n              <img src=\"https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&q=80&w=1600\" alt=\"Journal Feature\" className=\"w-full h-full object-cover img-zoom\" />\n              <div className=\"absolute bottom-0 left-0 bg-[#F4F1EA] p-6 z-10 hidden group-hover:block transition-all duration-300\">\n                <BookOpen size={24} className=\"text-[#C46D4D]\" />\n              </div>\n            </div>\n            <div className=\"max-w-3xl\">\n              <p className=\"text-xs tracking-[0.2em] uppercase text-[#C46D4D] font-semibold mb-4\">Expedition Report • 5 Min Read</p>\n              <h3 className=\"text-4xl font-serif mb-4 group-hover:text-[#C46D4D] transition-colors\">Chasing the Midnight Sun: A Month in Svalbard</h3>\n              <p className=\"text-[#6A6D6B] leading-relaxed mb-6 text-lg\">\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.\n              </p>\n              <span className=\"text-sm uppercase tracking-widest font-medium border-b border-[#2C302E] pb-1\">Read Dispatch</span>\n            </div>\n          </div>\n\n          <div className=\"col-span-4 flex flex-col gap-12\">\n            <div className=\"group cursor-pointer\">\n              <div className=\"overflow-hidden aspect-[4/3] mb-6\">\n                <img src=\"https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800\" alt=\"Journal Secondary\" className=\"w-full h-full object-cover img-zoom\" />\n              </div>\n              <p className=\"text-xs tracking-[0.2em] uppercase text-[#C46D4D] font-semibold mb-3\">Field Notes • 3 Min Read</p>\n              <h3 className=\"text-2xl font-serif mb-3 group-hover:text-[#C46D4D] transition-colors\">The Art of Foraging in the Pacific Northwest</h3>\n              <p className=\"text-[#6A6D6B] text-sm leading-relaxed\">\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.\n              </p>\n            </div>\n\n            <div className=\"group cursor-pointer border-t border-[#2C302E]/20 pt-12\">\n              <p className=\"text-xs tracking-[0.2em] uppercase text-[#C46D4D] font-semibold mb-3\">Interviews • 8 Min Read</p>\n              <h3 className=\"text-2xl font-serif mb-3 group-hover:text-[#C46D4D] transition-colors\">In Conversation with Mountain Guide Elena Rostova</h3>\n              <p className=\"text-[#6A6D6B] text-sm leading-relaxed\">\n                Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.\n              </p>\n            </div>\n          </div>\n        </div>\n      </section>\n\n      <section className=\"bg-[#2C302E] text-[#F4F1EA] py-32 px-12 text-center\">\n        <h3 className=\"text-xs tracking-[0.2em] uppercase text-white/50 mb-16\">Words from the Kin</h3>\n        <div className=\"max-w-[1440px] mx-auto grid grid-cols-3 gap-16\">\n          <div className=\"flex flex-col items-center\">\n            <p className=\"font-serif text-2xl italic mb-8 leading-relaxed\">\n              \"Traveling with Wild Kin wasn't just a vacation; it was a profound reset. The attention to detail and authentic connection to nature is unmatched.\"\n            </p>\n            <p className=\"text-xs tracking-widest uppercase text-[#C46D4D]\">Sarah Jenkins</p>\n            <p className=\"text-xs text-white/50 mt-1\">Patagonia Expedition</p>\n          </div>\n          <div className=\"flex flex-col items-center\">\n            <p className=\"font-serif text-2xl italic mb-8 leading-relaxed\">\n              \"Their field gear is the only equipment I trust when I'm miles away from civilization. Built with purpose and undeniably beautiful.\"\n            </p>\n            <p className=\"text-xs tracking-widest uppercase text-[#C46D4D]\">Marcus Thorne</p>\n            <p className=\"text-xs text-white/50 mt-1\">Professional Photographer</p>\n          </div>\n          <div className=\"flex flex-col items-center\">\n            <p className=\"font-serif text-2xl italic mb-8 leading-relaxed\">\n              \"I found more than just a travel company; I found a community of individuals who respect the earth and seek true adventure.\"\n            </p>\n            <p className=\"text-xs tracking-widest uppercase text-[#C46D4D]\">Elena Rodriguez</p>\n            <p className=\"text-xs text-white/50 mt-1\">Saharan Sands</p>\n          </div>\n        </div>\n      </section>\n\n      <section className=\"py-32 px-12 bg-[#C46D4D] text-[#F4F1EA] flex justify-center\">\n        <div className=\"max-w-2xl text-center w-full\">\n          <h2 className=\"text-5xl font-serif mb-6\">Join the Expedition</h2>\n          <p className=\"text-lg font-light mb-12 text-white/90\">\n            Subscribe to our dispatches for early access to new trips, exclusive gear drops, and stories from the wild.\n          </p>\n          <form className=\"flex w-full border-b border-white/50 pb-2\">\n            <input \n              type=\"email\" \n              placeholder=\"Enter your email address\" \n              className=\"bg-transparent border-none outline-none flex-grow text-[#F4F1EA] placeholder:text-[#F4F1EA]/60 font-light text-lg\"\n            />\n            <button type=\"button\" className=\"text-sm tracking-widest uppercase font-medium hover:text-white transition-colors\">\n              Subscribe\n            </button>\n          </form>\n          <p className=\"text-xs mt-4 text-white/60 text-left\">\n            By subscribing, you agree to our terms and privacy policy.\n          </p>\n        </div>\n      </section>\n\n      <footer className=\"bg-[#1C1F1D] text-[#F4F1EA] pt-24 pb-12 px-12\">\n        <div className=\"max-w-[1440px] mx-auto grid grid-cols-12 gap-12 border-b border-white/10 pb-20 mb-12\">\n          <div className=\"col-span-4 pr-12\">\n            <h2 className=\"text-4xl font-serif tracking-widest font-semibold uppercase mb-6\">Wild Kin</h2>\n            <p className=\"text-white/60 font-light text-sm leading-relaxed mb-8\">\n              Curated nature trips, premium outdoor gear, and expedition stories for those who seek kinship in the wild.\n            </p>\n            <div className=\"flex gap-4\">\n              <div className=\"w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 cursor-pointer transition-colors\">In</div>\n              <div className=\"w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 cursor-pointer transition-colors\">Tw</div>\n              <div className=\"w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 cursor-pointer transition-colors\">Fb</div>\n            </div>\n          </div>\n\n          <div className=\"col-span-2\">\n            <h4 className=\"text-xs tracking-[0.2em] uppercase text-white/40 mb-8\">Expeditions</h4>\n            <ul className=\"space-y-4 text-sm font-light text-white/80\">\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">View All Trips</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">The Americas</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Europe & Nordics</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Africa & Asia</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Custom Journeys</a></li>\n            </ul>\n          </div>\n\n          <div className=\"col-span-2\">\n            <h4 className=\"text-xs tracking-[0.2em] uppercase text-white/40 mb-8\">Field Gear</h4>\n            <ul className=\"space-y-4 text-sm font-light text-white/80\">\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Apparel</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Packs & Bags</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Camp Essentials</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Footwear</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Care & Repair</a></li>\n            </ul>\n          </div>\n\n          <div className=\"col-span-2\">\n            <h4 className=\"text-xs tracking-[0.2em] uppercase text-white/40 mb-8\">The Brand</h4>\n            <ul className=\"space-y-4 text-sm font-light text-white/80\">\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Our Story</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Sustainability</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">The Journal</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Ambassadors</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Careers</a></li>\n            </ul>\n          </div>\n\n          <div className=\"col-span-2\">\n            <h4 className=\"text-xs tracking-[0.2em] uppercase text-white/40 mb-8\">Support</h4>\n            <ul className=\"space-y-4 text-sm font-light text-white/80\">\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Contact Us</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">FAQ</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Shipping & Returns</a></li>\n              <li><a href=\"#\" className=\"hover:text-white transition-colors\">Size Guide</a></li>\n            </ul>\n          </div>\n        </div>\n\n        <div className=\"max-w-[1440px] mx-auto flex justify-between items-center text-xs font-light text-white/40\">\n          <p>&copy; {new Date().getFullYear()} Wild Kin. All rights reserved.</p>\n          <div className=\"flex gap-6\">\n            <a href=\"#\" className=\"hover:text-white transition-colors\">Privacy Policy</a>\n            <a href=\"#\" className=\"hover:text-white transition-colors\">Terms of Service</a>\n          </div>\n        </div>\n      </footer>\n    </div>\n  );\n};\n\nexport default App;\n";
+const wildKinSource = String.raw`import React from "react";
+import { ArrowRight, Compass, Tent, BookOpen, ChevronRight, MapPin, Wind, Anchor } from "lucide-react";
+
+const journeys = [
+  {
+    title: "The Patagonian Frontier",
+    meta: "14 Days • Strenuous • Oct-Mar",
+    price: "From $4,200",
+    image: "https://images.unsplash.com/photo-1518182170546-0766de6b6aa5?auto=format&fit=crop&q=80&w=1200",
+  },
+  {
+    title: "Nordic Fjords & Highlands",
+    meta: "9 Days • Moderate • Jun-Sep",
+    price: "From $3,800",
+    image: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80&w=1200",
+  },
+  {
+    title: "Saharan Solitude",
+    meta: "7 Days • Easy • Nov-Feb",
+    price: "From $2,100",
+    image: "https://images.unsplash.com/photo-1504221507732-5246c045949b?auto=format&fit=crop&q=80&w=1200",
+  },
+];
+
+const gearItems = [
+  {
+    title: "The Canvas Rucksack",
+    body: "Heavyweight waxed cotton, brass hardware.",
+    price: "$285",
+    image: "https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&q=80&w=400",
+  },
+  {
+    title: "Heritage Trail Boots",
+    body: "Vibram sole, full-grain leather upper.",
+    price: "$340",
+    image: "https://images.unsplash.com/photo-1520699697851-3dc68aa3a474?auto=format&fit=crop&q=80&w=400",
+  },
+  {
+    title: "Expedition Parka",
+    body: "Weather-resistant, ethically sourced down.",
+    price: "$520",
+    image: "https://images.unsplash.com/photo-1588623565506-6556e4ebce4e?auto=format&fit=crop&q=80&w=400",
+  },
+];
+
+const stories = [
+  {
+    eyebrow: "Expedition Report • 5 Min Read",
+    title: "Chasing the Midnight Sun: A Month in Svalbard",
+    body: "A field dispatch on silence, stamina and the strange generosity of the Arctic summer.",
+    image: "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&q=80&w=1600",
+  },
+  {
+    eyebrow: "Field Notes • 3 Min Read",
+    title: "The Art of Foraging in the Pacific Northwest",
+    body: "Simple rituals for reading the forest slowly and responsibly.",
+    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    eyebrow: "Interviews • 8 Min Read",
+    title: "In Conversation with Mountain Guide Elena Rostova",
+    body: "On route-finding, leadership and why humility matters more than bravado.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Traveling with Wild Kin wasn't just a vacation; it was a profound reset. The attention to detail and authentic connection to nature is unmatched.",
+    name: "Sarah Jenkins",
+    role: "Patagonia Expedition",
+  },
+  {
+    quote: "Their field gear is the only equipment I trust when I'm miles away from civilization. Built with purpose and undeniably beautiful.",
+    name: "Marcus Thorne",
+    role: "Professional Photographer",
+  },
+  {
+    quote: "I found more than just a travel company; I found a community of individuals who respect the earth and seek true adventure.",
+    name: "Elena Rodriguez",
+    role: "Saharan Sands",
+  },
+];
+
+const footerColumns = [
+  {
+    title: "Expeditions",
+    links: ["View All Trips", "The Americas", "Europe & Nordics", "Africa & Asia", "Custom Journeys"],
+  },
+  {
+    title: "Field Gear",
+    links: ["Apparel", "Packs & Bags", "Camp Essentials", "Footwear", "Care & Repair"],
+  },
+  {
+    title: "The Brand",
+    links: ["Our Story", "Sustainability", "The Journal", "Ambassadors", "Careers"],
+  },
+  {
+    title: "Support",
+    links: ["Contact Us", "FAQ", "Shipping & Returns", "Size Guide"],
+  },
+];
+
+export default function App() {
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-[#F4F1EA] text-[#2C302E] selection:bg-[#C46D4D] selection:text-white">
+      <header className="relative flex min-h-screen flex-col justify-between overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400"
+            alt="Moody Mountain Landscape"
+            className="h-full w-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-black/70" />
+        </div>
+
+        <nav className="relative z-10 px-4 py-6 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-wrap gap-4 text-[11px] uppercase tracking-[0.28em] sm:gap-8">
+              <a href="#" className="transition-colors hover:text-[#D4C9A8]">Expeditions</a>
+              <a href="#" className="transition-colors hover:text-[#D4C9A8]">Field Gear</a>
+              <a href="#" className="transition-colors hover:text-[#D4C9A8]">The Journal</a>
+            </div>
+
+            <div className="text-3xl font-serif uppercase tracking-[0.25em] sm:text-4xl">Wild Kin</div>
+
+            <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.28em] sm:gap-6">
+              <a href="#" className="transition-colors hover:text-[#D4C9A8]">Our Story</a>
+              <a href="#" className="transition-colors hover:text-[#D4C9A8]">Log In</a>
+              <button className="rounded-full border border-white/30 bg-white/10 px-5 py-3 text-[11px] transition-colors hover:bg-white hover:text-black">
+                Join the Movement
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <div className="relative z-10 px-4 pb-14 pt-10 sm:px-6 lg:px-8 lg:pb-24">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+            <div className="max-w-3xl text-white">
+              <p className="mb-5 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.32em] text-white/80">
+                <Compass size={14} /> Curated Nature Trips
+              </p>
+              <h1 className="text-6xl font-serif font-medium leading-[0.88] sm:text-7xl lg:text-8xl">
+                Return to the
+                <br />
+                <i className="font-light">Untamed</i>.
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+                Curated expeditions, premium field gear and stories from the edge of the world, created for people who feel most alive off the paved road.
+              </p>
+              <button className="group mt-8 inline-flex items-center gap-4 border-b border-white pb-2 text-sm uppercase tracking-[0.24em] transition-colors hover:border-[#D4C9A8] hover:text-[#D4C9A8]">
+                Explore Journeys
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-2" />
+              </button>
+            </div>
+
+            <div className="grid gap-4 rounded-[2rem] border border-white/20 bg-white/10 p-5 text-white backdrop-blur-md sm:p-6">
+              <div className="rounded-[1.5rem] border border-white/15 bg-black/20 p-5">
+                <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#D4C9A8]">
+                  <MapPin size={14} />
+                  Season Preview
+                </div>
+                <div className="mt-4 grid gap-3 text-sm uppercase tracking-[0.24em] text-white/75 sm:grid-cols-3 sm:text-right">
+                  <div className="sm:text-left">01 Patagonia</div>
+                  <div>02 Nordics</div>
+                  <div>03 Sahara</div>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-[1.5rem] border border-white/15 bg-black/20 p-5">
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-[#D4C9A8]">Built Around</p>
+                  <p className="mt-3 text-2xl font-serif">Immersion</p>
+                </div>
+                <div className="rounded-[1.5rem] border border-white/15 bg-black/20 p-5">
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-[#D4C9A8]">Field Standard</p>
+                  <p className="mt-3 text-2xl font-serif">Quiet Luxury</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+            <Wind className="mb-6 text-[#C46D4D]" size={32} />
+            <h2 className="max-w-4xl text-3xl font-serif leading-tight sm:text-4xl lg:text-5xl">
+              We believe in the restorative power of nature. Wild Kin is less a brand than an invitation to step off the road and reconnect with the earth.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-[#6A6D6B] sm:text-lg">
+              Slow travel, thoughtful equipment and meaningful field stories for people who prefer depth over volume and intention over spectacle.
+            </p>
+          </div>
+        </section>
+
+        <section className="bg-[#EBE7DF] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-10 flex flex-col gap-4 border-b border-[#2C302E]/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 className="text-[11px] uppercase tracking-[0.28em] text-[#6A6D6B]">Curated Expeditions</h3>
+                <h2 className="mt-3 text-4xl font-serif sm:text-5xl">Featured Journeys</h2>
+              </div>
+              <a href="#" className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.16em] transition-colors hover:text-[#C46D4D]">
+                View All <ChevronRight size={16} />
+              </a>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-3">
+              {journeys.map((journey, index) => (
+                <article
+                  key={journey.title}
+                  className={
+                    "group cursor-pointer " +
+                    (index === 1 ? "lg:translate-y-10" : "")
+                  }
+                >
+                  <div className="mb-5 overflow-hidden rounded-[2rem] bg-[#D8D2C6]">
+                    <img src={journey.image} alt={journey.title} className="aspect-[4/5] h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                  </div>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h4 className="text-2xl font-serif transition-colors group-hover:text-[#C46D4D]">{journey.title}</h4>
+                      <p className="mt-2 text-sm font-light text-[#6A6D6B]">{journey.meta}</p>
+                    </div>
+                    <span className="text-sm font-medium">{journey.price}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="relative">
+              <div className="absolute -left-4 -top-4 h-40 w-40 rounded-full bg-[#EBE7DF] opacity-70 blur-3xl sm:h-56 sm:w-56" />
+              <div className="overflow-hidden rounded-[2rem]">
+                <img
+                  src="https://images.unsplash.com/photo-1504280650346-76472f10b805?auto=format&fit=crop&q=80&w=1200"
+                  alt="Premium Outdoor Gear"
+                  className="h-[420px] w-full object-cover sm:h-[560px] lg:h-[760px]"
+                />
+              </div>
+
+              <div className="mt-5 rounded-[1.75rem] bg-white p-6 shadow-xl lg:absolute lg:-bottom-8 lg:right-6 lg:mt-0 lg:max-w-sm">
+                <Tent className="mb-4 text-[#C46D4D]" size={24} />
+                <h4 className="text-2xl font-serif">Built for the Elements</h4>
+                <p className="mt-3 text-sm leading-relaxed text-[#6A6D6B]">
+                  Gear made to age well, travel hard and stay beautiful after years in the field.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-[11px] uppercase tracking-[0.28em] text-[#6A6D6B]">Field Essentials</h3>
+              <h2 className="mt-4 text-4xl font-serif sm:text-5xl">Equip Your Journey</h2>
+
+              <div className="mt-8 space-y-6">
+                {gearItems.map((item) => (
+                  <div key={item.title} className="flex flex-col gap-4 border-b border-[#2C302E]/10 pb-6 sm:flex-row sm:items-center">
+                    <div className="h-24 w-24 overflow-hidden rounded-[1.25rem] bg-[#EBE7DF]">
+                      <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-500 hover:scale-110" />
+                    </div>
+                    <div className="flex-1">
+                      <h5 className="text-xl font-serif">{item.title}</h5>
+                      <p className="mt-1 text-sm text-[#6A6D6B]">{item.body}</p>
+                    </div>
+                    <div className="text-sm font-medium">{item.price}</div>
+                  </div>
+                ))}
+              </div>
+
+              <button className="group mt-8 inline-flex items-center gap-4 border-b border-[#2C302E] pb-2 text-sm uppercase tracking-[0.24em] transition-colors hover:border-[#C46D4D] hover:text-[#C46D4D]">
+                Shop All Gear
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-2" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden py-20 text-center text-white sm:py-28">
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=2400"
+              alt="Deep Forest"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-[#1C1F1D]/82" />
+          </div>
+
+          <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
+            <Anchor className="mx-auto mb-6 text-[#D4C9A8]" size={32} />
+            <h2 className="text-4xl font-serif leading-tight sm:text-5xl lg:text-6xl">
+              "Wildness reminds us what it means to be human, whole and fully engaged with the world."
+            </h2>
+            <p className="mt-6 text-[11px] uppercase tracking-[0.28em] text-[#D4C9A8]">Our Sustainability Commitment</p>
+          </div>
+        </section>
+
+        <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-10 flex flex-col gap-4 border-b border-[#2C302E]/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 className="text-[11px] uppercase tracking-[0.28em] text-[#6A6D6B]">Dispatches from the Field</h3>
+                <h2 className="mt-3 text-4xl font-serif sm:text-5xl">The Journal</h2>
+              </div>
+              <a href="#" className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.16em] transition-colors hover:text-[#C46D4D]">
+                Read All Stories <ChevronRight size={16} />
+              </a>
+            </div>
+
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+              <article className="group cursor-pointer">
+                <div className="overflow-hidden rounded-[2rem]">
+                  <img src={stories[0].image} alt={stories[0].title} className="aspect-[16/10] h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                </div>
+                <div className="mt-6 max-w-3xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#C46D4D]">{stories[0].eyebrow}</p>
+                  <h3 className="mt-4 text-3xl font-serif transition-colors group-hover:text-[#C46D4D] sm:text-4xl">{stories[0].title}</h3>
+                  <p className="mt-4 text-base leading-relaxed text-[#6A6D6B] sm:text-lg">{stories[0].body}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 border-b border-[#2C302E] pb-1 text-sm uppercase tracking-[0.24em]">
+                    <BookOpen size={16} />
+                    Read Dispatch
+                  </span>
+                </div>
+              </article>
+
+              <div className="flex flex-col gap-8">
+                <article className="group cursor-pointer">
+                  <div className="overflow-hidden rounded-[2rem]">
+                    <img src={stories[1].image} alt={stories[1].title} className="aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                  </div>
+                  <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#C46D4D]">{stories[1].eyebrow}</p>
+                  <h3 className="mt-3 text-2xl font-serif transition-colors group-hover:text-[#C46D4D]">{stories[1].title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#6A6D6B]">{stories[1].body}</p>
+                </article>
+
+                <article className="cursor-pointer border-t border-[#2C302E]/20 pt-8">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#C46D4D]">{stories[2].eyebrow}</p>
+                  <h3 className="mt-3 text-2xl font-serif transition-colors hover:text-[#C46D4D]">{stories[2].title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#6A6D6B]">{stories[2].body}</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#2C302E] px-4 py-16 text-center text-[#F4F1EA] sm:px-6 lg:px-8 lg:py-24">
+          <h3 className="mb-10 text-[11px] uppercase tracking-[0.28em] text-white/50">Words from the Kin</h3>
+          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+            {testimonials.map((item) => (
+              <div key={item.name} className="flex flex-col items-center rounded-[2rem] border border-white/10 bg-white/5 p-6">
+                <p className="font-serif text-2xl italic leading-relaxed">{item.quote}</p>
+                <p className="mt-6 text-[11px] uppercase tracking-[0.28em] text-[#C46D4D]">{item.name}</p>
+                <p className="mt-1 text-xs text-white/55">{item.role}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-[#C46D4D] px-4 py-16 text-[#F4F1EA] sm:px-6 lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-4xl font-serif sm:text-5xl">Join the Expedition</h2>
+            <p className="mt-4 text-base font-light leading-relaxed text-white/90 sm:text-lg">
+              Subscribe for early access to new trips, exclusive gear drops and dispatches from the wild.
+            </p>
+            <form className="mt-10 flex flex-col gap-4 border-b border-white/50 pb-3 sm:flex-row sm:items-center">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="min-w-0 flex-1 bg-transparent text-lg font-light text-[#F4F1EA] outline-none placeholder:text-[#F4F1EA]/60"
+              />
+              <button type="button" className="text-sm uppercase tracking-[0.24em] font-medium transition-colors hover:text-white">
+                Subscribe
+              </button>
+            </form>
+            <p className="mt-4 text-left text-xs text-white/60">By subscribing, you agree to our terms and privacy policy.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-[#1C1F1D] px-4 pb-10 pt-16 text-[#F4F1EA] sm:px-6 lg:px-8 lg:pt-24">
+        <div className="mx-auto grid max-w-6xl gap-10 border-b border-white/10 pb-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_repeat(4,minmax(0,1fr))]">
+          <div className="pr-0 lg:pr-10">
+            <h2 className="text-4xl font-serif uppercase tracking-[0.25em]">Wild Kin</h2>
+            <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-white/60">
+              Curated nature trips, premium outdoor gear and expedition stories for those who seek kinship in the wild.
+            </p>
+            <div className="mt-6 flex gap-3">
+              {["In", "Tw", "Fb"].map((label) => (
+                <div key={label} className="flex h-10 w-10 items-center justify-center border border-white/20 text-xs transition-colors hover:bg-white/10">
+                  {label}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {footerColumns.map((column) => (
+            <div key={column.title}>
+              <h4 className="mb-5 text-[11px] uppercase tracking-[0.28em] text-white/40">{column.title}</h4>
+              <ul className="space-y-3 text-sm font-light text-white/80">
+                {column.links.map((link) => (
+                  <li key={link}>
+                    <a href="#" className="transition-colors hover:text-white">{link}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-3 text-xs font-light text-white/40 md:flex-row md:items-center md:justify-between">
+          <p>&copy; {new Date().getFullYear()} Wild Kin. All rights reserved.</p>
+          <div className="flex flex-wrap gap-5">
+            <a href="#" className="transition-colors hover:text-white">Privacy Policy</a>
+            <a href="#" className="transition-colors hover:text-white">Terms of Service</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+`;
 
 export const wildKinSlide: WebsiteShowcaseSlide = {
   id: "wild-kin",

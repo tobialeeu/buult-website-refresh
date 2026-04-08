@@ -2,7 +2,395 @@ import { showcaseFontsStylesheetHref, showcaseReactStylesheetHref } from "./asse
 import type { WebsiteShowcaseSlide } from "./index";
 import { createBundledReactPreviewDocument } from "./reactPreview";
 
-const novaNightsSource = "import React, { useState, useEffect } from 'react';\n\n// --- CUSTOM STYLES & ANIMATIONS ---\nconst CustomStyles = () => (\n  <style dangerouslySetInnerHTML={{__html: `\n    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap');\n\n    :root {\n      --acid-green: #ccff00;\n      --magenta: #ff0099;\n      --deep-black: #050505;\n    }\n\n    body, html {\n      margin: 0;\n      padding: 0;\n      background-color: var(--deep-black);\n      color: white;\n      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\n      overflow-x: hidden;\n      cursor: none;\n    }\n\n    .font-mono-custom { font-family: 'Space Mono', monospace; }\n    .font-display { font-family: 'Syncopate', sans-serif; }\n\n    .text-stroke {\n      -webkit-text-stroke: 2px var(--acid-green);\n      color: transparent;\n    }\n    .text-stroke-white {\n      -webkit-text-stroke: 2px white;\n      color: transparent;\n    }\n    .text-stroke-black {\n      -webkit-text-stroke: 1px var(--deep-black);\n      color: transparent;\n    }\n\n    .noise-overlay {\n      position: fixed;\n      top: 0; left: 0; width: 100vw; height: 100vh;\n      pointer-events: none;\n      z-index: 9999;\n      opacity: 0.08;\n      background: url('data:image/svg+xml;utf8,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E');\n    }\n\n    @keyframes marquee {\n      0% { transform: translate3d(0, 0, 0); }\n      100% { transform: translate3d(-50%, 0, 0); }\n    }\n    .animate-marquee {\n      display: inline-flex;\n      white-space: nowrap;\n      animation: marquee 15s linear infinite;\n    }\n    .animate-marquee-slow {\n      animation: marquee 30s linear infinite;\n    }\n    .animate-marquee-reverse {\n      animation: marquee 20s linear infinite reverse;\n    }\n\n    .cursor-dot {\n      width: 20px;\n      height: 20px;\n      background-color: var(--acid-green);\n      border-radius: 50%;\n      position: fixed;\n      pointer-events: none;\n      z-index: 10000;\n      transform: translate(-50%, -50%);\n      mix-blend-mode: difference;\n      transition: width 0.2s, height 0.2s, background-color 0.2s;\n    }\n    body:hover .cursor-dot.active {\n      width: 80px;\n      height: 80px;\n      background-color: white;\n    }\n\n    .event-row:hover .event-title {\n      transform: translateX(40px);\n      color: var(--acid-green);\n    }\n    .event-title {\n      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;\n    }\n\n    .brutal-img {\n      filter: grayscale(100%) contrast(120%);\n      transition: filter 0.5s ease;\n    }\n    .brutal-img:hover {\n      filter: grayscale(0%) contrast(100%);\n    }\n  `}} />\n);\n\nexport default function App() {\n  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });\n  const [isHoveringLink, setIsHoveringLink] = useState(false);\n  const [activeEventImage, setActiveEventImage] = useState(null);\n\n  useEffect(() => {\n    const handleMouseMove = (e) => {\n      setMousePos({ x: e.clientX, y: e.clientY });\n    };\n    window.addEventListener('mousemove', handleMouseMove);\n    return () => window.removeEventListener('mousemove', handleMouseMove);\n  }, []);\n\n  const handleMouseEnter = () => setIsHoveringLink(true);\n  const handleMouseLeave = () => setIsHoveringLink(false);\n\n  const eventImages = {\n    1: \"https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop\",\n    2: \"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop\",\n    3: \"https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974&auto=format&fit=crop\",\n    4: \"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop\"\n  };\n\n  return (\n    <div className=\"relative w-full min-h-screen selection:bg-[#ccff00] selection:text-black\">\n      <CustomStyles />\n      <div className=\"noise-overlay\" />\n\n      <div\n        className={`cursor-dot ${isHoveringLink ? 'active' : ''}`}\n        style={{ left: `${mousePos.x}px`, top: `${mousePos.y}px` }}\n      />\n\n      <nav className=\"fixed top-0 left-0 w-full p-8 flex justify-between items-start z-50 mix-blend-difference\">\n        <div\n          className=\"text-2xl font-black tracking-tighter uppercase leading-none\"\n          onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n        >\n          Nova<br/>Nights<br/>\n          <span className=\"font-mono-custom text-xs font-normal tracking-widest text-[#ccff00] mt-2 block\">\n            Vol. IV\n          </span>\n        </div>\n\n        <div className=\"flex gap-12 font-mono-custom text-sm uppercase\">\n          <ul className=\"flex flex-col gap-2 text-right opacity-70 hover:opacity-100 transition-opacity\">\n            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Program</li>\n            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Artists</li>\n            <li onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Info</li>\n          </ul>\n          <button\n            className=\"bg-[#ccff00] text-black px-8 py-4 text-xl font-black uppercase hover:bg-white transition-colors\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          >\n            Tickets\n          </button>\n        </div>\n      </nav>\n\n      <section className=\"relative h-screen w-full flex flex-col justify-center overflow-hidden\">\n        <div className=\"absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#ff0099] rounded-full mix-blend-screen filter blur-[150px] opacity-40 animate-pulse\"></div>\n        <div className=\"absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-[#00f0ff] rounded-full mix-blend-screen filter blur-[200px] opacity-30\"></div>\n\n        <div className=\"relative z-10 px-8 flex flex-col justify-center h-full mt-20 pointer-events-none\">\n          <h1 className=\"text-[16vw] font-black leading-[0.75] tracking-tighter uppercase m-0\">\n            Nova\n          </h1>\n          <h1 className=\"text-[16vw] font-black leading-[0.75] tracking-tighter uppercase m-0 text-stroke ml-[10vw]\">\n            Nights\n          </h1>\n        </div>\n\n        <div className=\"absolute bottom-12 left-8 font-mono-custom text-sm uppercase tracking-[0.3em] flex gap-16\">\n          <div>\n            <span className=\"text-[#ff0099] font-bold\">Date</span><br/>\n            Oct 24—27, 2026\n          </div>\n          <div>\n            <span className=\"text-[#ff0099] font-bold\">Location</span><br/>\n            Industrial Sector 7,<br/>Metropolis\n          </div>\n        </div>\n\n        <div className=\"absolute bottom-12 right-8 text-right font-mono-custom text-xs opacity-50 max-w-[200px]\">\n          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.\n        </div>\n      </section>\n\n      <div className=\"w-full bg-[#ccff00] text-black py-4 overflow-hidden border-y-4 border-black rotate-[-1deg] scale-105 my-12 z-20 relative\">\n        <div className=\"animate-marquee font-display font-bold text-2xl uppercase tracking-widest whitespace-nowrap\">\n          <span>CONTEMPORARY ARTS /// DIGITAL CULTURE /// AV PERFORMANCES /// CONTEMPORARY ARTS /// DIGITAL CULTURE /// AV PERFORMANCES /// CONTEMPORARY ARTS /// DIGITAL CULTURE /// AV PERFORMANCES ///&nbsp;</span>\n        </div>\n      </div>\n\n      <section className=\"py-32 relative min-h-screen flex flex-col justify-center border-b border-white/20\">\n        {activeEventImage && (\n          <div\n            className=\"absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-500 opacity-40 brutal-img\"\n            style={{ backgroundImage: `url(${eventImages[activeEventImage]})` }}\n          />\n        )}\n\n        <div className=\"relative z-10 px-8 w-full\">\n          <h2 className=\"font-mono-custom text-[#ccff00] text-lg uppercase tracking-widest mb-16\">\n            [ Featured Program ]\n          </h2>\n\n          <div className=\"flex flex-col w-full border-t border-white/20\">\n            {[\n              { id: 1, title: \"Sonic Architecture\", time: \"22:00 - 04:00\", venue: \"Main Hall\" },\n              { id: 2, title: \"Digital Renaissance\", time: \"18:00 - 23:00\", venue: \"The Void\" },\n              { id: 3, title: \"Haptic Visions\", time: \"20:00 - 02:00\", venue: \"Sector 7\" },\n              { id: 4, title: \"Algorithmic Chaos\", time: \"23:59 - 06:00\", venue: \"Warehouse B\" },\n            ].map((event) => (\n              <div\n                key={event.id}\n                className=\"event-row border-b border-white/20 py-10 flex items-center justify-between cursor-none group\"\n                onMouseEnter={() => { handleMouseEnter(); setActiveEventImage(event.id); }}\n                onMouseLeave={() => { handleMouseLeave(); setActiveEventImage(null); }}\n              >\n                <div className=\"text-8xl font-black uppercase tracking-tighter event-title w-2/3 leading-none\">\n                  {event.title}\n                </div>\n                <div className=\"w-1/3 flex justify-end gap-16 font-mono-custom text-sm uppercase opacity-50 group-hover:opacity-100 transition-opacity\">\n                  <div className=\"text-right\">\n                    <span className=\"text-[#ccff00] block mb-1\">Time</span>\n                    {event.time}\n                  </div>\n                  <div className=\"text-right\">\n                    <span className=\"text-[#ccff00] block mb-1\">Venue</span>\n                    {event.venue}\n                  </div>\n                </div>\n              </div>\n            ))}\n          </div>\n        </div>\n      </section>\n\n      <section className=\"py-40 px-8 bg-white text-black overflow-hidden relative\">\n        <h2 className=\"font-mono-custom text-black text-lg uppercase tracking-widest mb-12 absolute top-8 left-8 z-20\">\n          [ Phase 1 Lineup ]\n        </h2>\n\n        <div className=\"w-[150%] ml-[-25%] rotate-[3deg] opacity-10 absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none\">\n          <h1 className=\"text-[30vw] font-black leading-none tracking-tighter text-stroke-black\">LINEUP</h1>\n        </div>\n\n        <div className=\"relative z-10 text-justify text-[4vw] font-black uppercase leading-[0.9] tracking-tighter break-words mt-20\">\n          Lorem Ipsum <span className=\"text-stroke-black\">Dolor Sit</span> Amet Consectetur <span className=\"text-[#ff0099]\">Adipiscing</span> Elit Sed Do <span className=\"text-stroke-black\">Eiusmod Tempor</span> Incididunt Ut Labore Et <span className=\"text-[#00f0ff]\">Dolore</span> Magna Aliqua Ut Enim Ad Minim <span className=\"text-stroke-black\">Veniam Quis</span> Nostrud Exercitation <span className=\"text-[#ccff00]\">Ullamco</span> Laboris Nisi Ut Aliquip Ex Ea <span className=\"text-stroke-black\">Commodo</span> Consequat Duis Aute Irure.\n        </div>\n\n        <div className=\"mt-20 flex justify-center\">\n          <button\n            className=\"border-4 border-black px-12 py-6 text-2xl font-black uppercase hover:bg-black hover:text-white transition-colors\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          >\n            View Full Roster\n          </button>\n        </div>\n      </section>\n\n      <section className=\"min-h-screen flex bg-[#ccff00] text-black\">\n        <div className=\"w-1/2 p-20 flex flex-col justify-between border-r-4 border-black\">\n          <h2 className=\"text-[8vw] font-black uppercase leading-[0.85] tracking-tighter\">\n            Redefining<br/>\n            The<br/>\n            <span className=\"text-white text-stroke-black mix-blend-exclusion\">Void.</span>\n          </h2>\n          <div className=\"font-mono-custom text-sm uppercase tracking-widest font-bold\">\n            Est. 2023 // Metropolis\n          </div>\n        </div>\n        <div className=\"w-1/2 p-20 flex flex-col gap-12 text-xl font-medium leading-relaxed justify-center\">\n          <p>\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n          </p>\n          <p>\n            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus.\n          </p>\n          <div className=\"mt-12 w-48 h-48 bg-black rounded-full flex items-center justify-center text-[#ccff00] font-mono-custom text-xs uppercase text-center animate-spin-slow hover:scale-110 transition-transform duration-500\" style={{ animationDuration: '10s'}}>\n            Read Manifesto <br/> Read Manifesto <br/> Read Manifesto\n          </div>\n        </div>\n      </section>\n\n      <section className=\"py-40 bg-black relative\">\n        <div className=\"max-w-[1400px] mx-auto h-[1200px] relative\">\n          <h2 className=\"absolute top-0 left-8 font-mono-custom text-[#ff0099] text-lg uppercase tracking-widest z-20\">\n            [ Atmosphere ]\n          </h2>\n\n          <img\n            src=\"https://images.unsplash.com/photo-1540039155732-d68a3fb70f20?q=80&w=1000&auto=format&fit=crop\"\n            alt=\"Gallery 1\"\n            className=\"absolute top-32 left-[10%] w-[400px] h-[550px] object-cover brutal-img z-10 hover:z-50 border border-white/20\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          />\n\n          <img\n            src=\"https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000&auto=format&fit=crop\"\n            alt=\"Gallery 2\"\n            className=\"absolute top-20 right-[15%] w-[500px] h-[350px] object-cover brutal-img z-20 hover:z-50 border border-white/20\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          />\n\n          <img\n            src=\"https://images.unsplash.com/photo-1470229722913-7c090be5c520?q=80&w=1000&auto=format&fit=crop\"\n            alt=\"Gallery 3\"\n            className=\"absolute bottom-32 left-[25%] w-[600px] h-[400px] object-cover brutal-img z-30 hover:z-50 border border-white/20\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          />\n\n          <img\n            src=\"https://images.unsplash.com/photo-1605369572399-05d8d64a0f6e?q=80&w=1000&auto=format&fit=crop\"\n            alt=\"Gallery 4\"\n            className=\"absolute bottom-10 right-[10%] w-[350px] h-[450px] object-cover brutal-img z-10 hover:z-50 border border-white/20\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          />\n\n          <div className=\"absolute top-[45%] left-[50%] -translate-x-1/2 -translate-y-1/2 text-[#ccff00] text-[10vw] font-black z-40 mix-blend-difference pointer-events-none\">\n            FEEL IT.\n          </div>\n        </div>\n      </section>\n\n      <section className=\"bg-[#ff0099] py-32 flex flex-col items-center justify-center text-center relative overflow-hidden\">\n        <div className=\"absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none\">\n          <h1 className=\"text-[25vw] font-black text-black leading-none uppercase scale-y-[2]\">TICKETS</h1>\n        </div>\n\n        <div className=\"relative z-10\">\n          <h2 className=\"text-8xl font-black text-black uppercase tracking-tighter mb-8\">\n            Secure<br/>Your Spot\n          </h2>\n          <p className=\"font-mono-custom text-black text-lg max-w-lg mx-auto mb-12 font-bold\">\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n          </p>\n          <button\n            className=\"bg-black text-white px-16 py-8 text-3xl font-black uppercase hover:bg-white hover:text-black transition-colors transform hover:scale-105\"\n            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}\n          >\n            Buy Passes Now\n          </button>\n        </div>\n      </section>\n\n      <section className=\"py-12 border-b border-white/20 bg-black\">\n        <h3 className=\"text-center font-mono-custom text-xs text-white/50 uppercase tracking-widest mb-8\">\n          Supported By\n        </h3>\n        <div className=\"w-full overflow-hidden flex items-center opacity-40\">\n          <div className=\"animate-marquee-slow flex gap-24 font-display font-bold text-4xl text-white uppercase tracking-widest\">\n            <span>LOREM</span>\n            <span>IPSUM</span>\n            <span>DOLOR</span>\n            <span>SIT</span>\n            <span>AMET</span>\n            <span>CONSECTETUR</span>\n            <span>LOREM</span>\n            <span>IPSUM</span>\n            <span>DOLOR</span>\n            <span>SIT</span>\n          </div>\n        </div>\n      </section>\n\n      <footer className=\"bg-black pt-32 pb-8 px-8 relative overflow-hidden flex flex-col justify-end min-h-[60vh]\">\n        <div className=\"flex justify-between items-end mb-20 relative z-10\">\n          <div className=\"flex flex-col gap-4 font-mono-custom text-sm uppercase\">\n            <span className=\"text-[#ccff00] mb-2\">Connect</span>\n            <a href=\"#\" className=\"hover:text-[#ff0099] transition-colors\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Instagram</a>\n            <a href=\"#\" className=\"hover:text-[#ff0099] transition-colors\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Twitter // X</a>\n            <a href=\"#\" className=\"hover:text-[#ff0099] transition-colors\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Discord</a>\n          </div>\n\n          <div className=\"flex flex-col gap-4 font-mono-custom text-sm uppercase text-right\">\n            <span className=\"text-[#ccff00] mb-2\">Legal</span>\n            <a href=\"#\" className=\"hover:text-white transition-colors text-white/50\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Privacy Policy</a>\n            <a href=\"#\" className=\"hover:text-white transition-colors text-white/50\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Terms of Service</a>\n            <a href=\"#\" className=\"hover:text-white transition-colors text-white/50\" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Press Kit</a>\n          </div>\n        </div>\n\n        <div className=\"w-full border-t border-white/20 pt-8 flex justify-between items-center relative z-10 font-mono-custom text-xs text-white/40 uppercase\">\n          <span>© 2026 Nova Nights. All rights reserved.</span>\n          <span>Designed for Desktop</span>\n        </div>\n\n        <h1 className=\"absolute bottom-[-10%] left-1/2 -translate-x-1/2 text-[22vw] font-black uppercase text-white/5 leading-none pointer-events-none w-full text-center whitespace-nowrap\">\n          NOVA NIGHTS\n        </h1>\n      </footer>\n    </div>\n  );\n}\n";
+const novaNightsSource = String.raw`import React, { useState } from "react";
+
+const events = [
+  {
+    id: 1,
+    title: "Sonic Architecture",
+    time: "22:00 - 04:00",
+    venue: "Main Hall",
+    blurb: "Immersive AV structures built from bass, steel and light.",
+    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    title: "Digital Renaissance",
+    time: "18:00 - 23:00",
+    venue: "The Void",
+    blurb: "Generative visuals, code-poetry and projection work inside a brutalist shell.",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    title: "Haptic Visions",
+    time: "20:00 - 02:00",
+    venue: "Sector 7",
+    blurb: "Responsive sculptures and tactile installations for night dwellers.",
+    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    title: "Algorithmic Chaos",
+    time: "23:59 - 06:00",
+    venue: "Warehouse B",
+    blurb: "A closing set of distorted club energy, coded improvisation and raw visuals.",
+    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop",
+  },
+];
+
+const artists = [
+  "Astra Unit",
+  "Monoform",
+  "Hex Static",
+  "Luma Riot",
+  "Neon Frame",
+  "Pulse Array",
+  "Signal Bloom",
+  "Zero District",
+];
+
+const atmosphereImages = [
+  "https://images.unsplash.com/photo-1540039155732-d68a3fb70f20?q=80&w=1000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1470229722913-7c090be5c520?q=80&w=1000&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1605369572399-05d8d64a0f6e?q=80&w=1000&auto=format&fit=crop",
+];
+
+const partners = ["LOREM", "IPSUM", "DOLOR", "SIT", "AMET", "CONSECTETUR"];
+
+export default function App() {
+  const [activeImage, setActiveImage] = useState(events[0].image);
+
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-[#050505] text-white selection:bg-[#ccff00] selection:text-black">
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,0,153,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(0,240,255,0.18),transparent_40%)]" />
+
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-start lg:justify-between lg:px-8">
+          <div className="leading-none">
+            <div className="text-2xl font-black uppercase tracking-tight sm:text-3xl">Nova<br />Nights</div>
+            <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.35em] text-[#ccff00]">Vol. IV</span>
+          </div>
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:gap-10">
+            <div className="flex flex-wrap gap-3 font-mono text-[11px] uppercase tracking-[0.3em] text-white/70 sm:gap-5">
+              <a href="#" className="transition-colors hover:text-[#ccff00]">Program</a>
+              <a href="#" className="transition-colors hover:text-[#ccff00]">Artists</a>
+              <a href="#" className="transition-colors hover:text-[#ccff00]">Info</a>
+            </div>
+            <button className="inline-flex items-center justify-center rounded-full bg-[#ccff00] px-5 py-3 text-sm font-black uppercase tracking-[0.2em] text-black transition-colors hover:bg-white sm:px-7">
+              Tickets
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main className="relative z-10">
+        <section className="relative flex min-h-screen items-center overflow-hidden pt-36 pb-16">
+          <div className="absolute -left-16 top-24 h-56 w-56 rounded-full bg-[#ff0099] opacity-40 blur-3xl sm:h-72 sm:w-72" />
+          <div className="absolute -right-16 bottom-12 h-64 w-64 rounded-full bg-[#00f0ff] opacity-30 blur-3xl sm:h-80 sm:w-80" />
+
+          <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:px-8">
+            <div>
+              <p className="mb-5 inline-flex items-center rounded-full border border-white/15 bg-white/5 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.35em] text-white/75">
+                Oct 24-27, 2026
+              </p>
+              <h1 className="text-[20vw] font-black uppercase leading-[0.82] tracking-[-0.08em] sm:text-[18vw] lg:text-[9rem]">
+                NOVA
+                <span
+                  className="block pl-[10vw] sm:pl-[14vw] lg:pl-24"
+                  style={{ WebkitTextStroke: "2px #ccff00", color: "transparent" }}
+                >
+                  NIGHTS
+                </span>
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-white/72 sm:text-lg">
+                Four nights of contemporary arts, digital culture and AV performances inside the industrial heart of Metropolis.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <button className="rounded-full border border-[#ccff00] bg-[#ccff00] px-6 py-4 text-sm font-black uppercase tracking-[0.24em] text-black transition-colors hover:bg-white">
+                  Buy Passes
+                </button>
+                <button className="rounded-full border border-white/15 bg-white/5 px-6 py-4 text-sm font-mono uppercase tracking-[0.24em] text-white transition-colors hover:border-white/30 hover:bg-white/10">
+                  See Program
+                </button>
+              </div>
+            </div>
+
+            <div className="grid gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur sm:p-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-3xl border border-white/10 bg-black/40 p-4">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ff0099]">Location</p>
+                  <p className="mt-3 text-xl font-semibold uppercase tracking-tight">Industrial Sector 7</p>
+                  <p className="mt-2 text-sm text-white/60">Metropolis, adaptive reuse warehouse campus.</p>
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-black/40 p-4">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#00f0ff]">Experience</p>
+                  <p className="mt-3 text-xl font-semibold uppercase tracking-tight">AV + Live Code</p>
+                  <p className="mt-2 text-sm text-white/60">Installations, performances, talks and brutalist club culture.</p>
+                </div>
+              </div>
+
+              <div className="rounded-[1.75rem] border border-white/10 bg-black/50 p-5">
+                <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ccff00]">Night Index</p>
+                <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-white/70">
+                  <div className="rounded-2xl border border-white/10 p-4">
+                    <span className="block text-2xl font-black text-white">04</span>
+                    Curated zones
+                  </div>
+                  <div className="rounded-2xl border border-white/10 p-4">
+                    <span className="block text-2xl font-black text-white">32</span>
+                    Featured artists
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative my-10 border-y-4 border-black bg-[#ccff00] py-4 text-black">
+          <div className="mx-auto flex max-w-none gap-8 overflow-hidden whitespace-nowrap px-4 font-black uppercase tracking-[0.28em] sm:text-lg">
+            <span className="shrink-0">Contemporary Arts</span>
+            <span className="shrink-0">Digital Culture</span>
+            <span className="shrink-0">AV Performances</span>
+            <span className="shrink-0">Late Night Talks</span>
+            <span className="shrink-0">Warehouse Installations</span>
+            <span className="shrink-0">Contemporary Arts</span>
+            <span className="shrink-0">Digital Culture</span>
+          </div>
+        </section>
+
+        <section
+          className="relative overflow-hidden border-b border-white/10 py-20 sm:py-28"
+          style={{
+            backgroundImage: "linear-gradient(180deg, rgba(5,5,5,0.78), rgba(5,5,5,0.94)), url(" + activeImage + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <h2 className="mb-10 font-mono text-sm uppercase tracking-[0.35em] text-[#ccff00] sm:mb-14">
+              [ Featured Program ]
+            </h2>
+
+            <div className="border-t border-white/20">
+              {events.map((event) => (
+                <button
+                  key={event.id}
+                  type="button"
+                  className="group grid w-full gap-5 border-b border-white/20 py-6 text-left sm:py-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
+                  onMouseEnter={() => setActiveImage(event.image)}
+                  onFocus={() => setActiveImage(event.image)}
+                >
+                  <div>
+                    <div className="text-4xl font-black uppercase leading-none tracking-[-0.08em] transition-transform duration-300 group-hover:text-[#ccff00] sm:text-5xl md:text-7xl">
+                      {event.title}
+                    </div>
+                    <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/65 sm:text-base">{event.blurb}</p>
+                  </div>
+
+                  <div className="grid gap-3 font-mono text-[11px] uppercase tracking-[0.26em] text-white/70 sm:grid-cols-2 md:text-right">
+                    <div>
+                      <span className="mb-2 block text-[#ccff00]">Time</span>
+                      {event.time}
+                    </div>
+                    <div>
+                      <span className="mb-2 block text-[#ccff00]">Venue</span>
+                      {event.venue}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-white py-20 text-black sm:py-28">
+          <div className="pointer-events-none absolute left-0 top-1/2 w-full -translate-y-1/2 opacity-[0.08]">
+            <div
+              className="text-center text-[24vw] font-black uppercase leading-none tracking-[-0.1em] sm:text-[16vw]"
+              style={{ WebkitTextStroke: "1px #050505", color: "transparent" }}
+            >
+              LINEUP
+            </div>
+          </div>
+
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="font-mono text-sm uppercase tracking-[0.35em] text-black/55">[ Phase 1 Lineup ]</p>
+                <h2 className="mt-4 text-4xl font-black uppercase leading-none tracking-[-0.08em] sm:text-6xl">
+                  Artists built for impact.
+                </h2>
+              </div>
+              <button className="rounded-full border-2 border-black px-6 py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors hover:bg-black hover:text-white">
+                View Full Roster
+              </button>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {artists.map((artist, index) => (
+                <div
+                  key={artist}
+                  className={
+                    "rounded-[1.75rem] border-2 p-5 " +
+                    (index % 3 === 0
+                      ? "border-black bg-black text-white"
+                      : index % 3 === 1
+                        ? "border-black bg-[#ff0099] text-black"
+                        : "border-black bg-[#ccff00] text-black")
+                  }
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.3em] opacity-70">Live set</p>
+                  <div className="mt-4 text-2xl font-black uppercase leading-none tracking-[-0.06em]">{artist}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#ccff00] text-black">
+          <div className="mx-auto grid max-w-6xl gap-0 md:grid-cols-[0.95fr_1.05fr]">
+            <div className="border-b-4 border-black px-4 py-16 sm:px-6 lg:border-b-0 lg:border-r-4 lg:px-8 lg:py-20">
+              <p className="font-mono text-sm uppercase tracking-[0.35em] text-black/65">Manifesto</p>
+              <h2 className="mt-6 text-5xl font-black uppercase leading-[0.88] tracking-[-0.08em] sm:text-7xl">
+                Redefining
+                <br />
+                the
+                <br />
+                <span style={{ WebkitTextStroke: "1px #050505", color: "white" }}>Void.</span>
+              </h2>
+              <p className="mt-6 font-mono text-sm uppercase tracking-[0.35em]">Est. 2023 // Metropolis</p>
+            </div>
+
+            <div className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+              <div className="grid gap-6 text-lg leading-relaxed text-black/80 sm:text-xl">
+                <p>
+                  Nova Nights exists for the in-between hours: when clubs become galleries, warehouses become stages and new work arrives louder than tradition.
+                </p>
+                <p>
+                  It is a festival for people who want friction, brightness, distortion and a little danger, but still expect strong curation and precise craft.
+                </p>
+              </div>
+
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <button className="rounded-full border-2 border-black px-6 py-3 text-sm font-black uppercase tracking-[0.22em] transition-colors hover:bg-black hover:text-[#ccff00]">
+                  Read Manifesto
+                </button>
+                <div className="flex h-28 w-28 items-center justify-center rounded-full bg-black px-4 text-center font-mono text-[11px] uppercase tracking-[0.22em] text-[#ccff00] sm:h-32 sm:w-32">
+                  Nights built from signal and noise
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-black py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="font-mono text-sm uppercase tracking-[0.35em] text-[#ff0099]">[ Atmosphere ]</p>
+                <h2 className="mt-4 text-4xl font-black uppercase tracking-[-0.08em] text-white sm:text-6xl">Feel it.</h2>
+              </div>
+              <p className="max-w-md text-sm leading-relaxed text-white/60 sm:text-base">
+                Brutalist light, sweaty air, sharp sound and moments designed to feel larger than the room itself.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+              {atmosphereImages.map((image, index) => (
+                <div
+                  key={image}
+                  className={
+                    "overflow-hidden rounded-[1.75rem] border border-white/15 " +
+                    (index === 0
+                      ? "col-span-2 lg:col-span-1"
+                      : index === 2
+                        ? "col-span-2 lg:col-span-2"
+                        : "")
+                  }
+                >
+                  <img
+                    src={image}
+                    alt="Nova Nights atmosphere"
+                    className={
+                      "h-full w-full object-cover grayscale transition duration-500 hover:scale-105 hover:grayscale-0 " +
+                      (index === 1 ? "aspect-[4/5]" : index === 2 ? "aspect-[16/9]" : "aspect-[3/4]")
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden bg-[#ff0099] py-20 text-center text-black sm:py-28">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-20">
+            <div className="text-[28vw] font-black uppercase leading-none tracking-[-0.12em] sm:text-[16vw]">TICKETS</div>
+          </div>
+
+          <div className="relative mx-auto max-w-3xl px-4 sm:px-6">
+            <h2 className="text-5xl font-black uppercase leading-[0.88] tracking-[-0.08em] sm:text-7xl">
+              Secure
+              <br />
+              Your Spot
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl font-mono text-sm font-bold uppercase tracking-[0.22em] text-black/70 sm:text-base">
+              Limited passes. Late-night access. One warehouse city built for four unforgettable evenings.
+            </p>
+            <button className="mt-10 rounded-full bg-black px-8 py-4 text-lg font-black uppercase tracking-[0.24em] text-white transition-transform hover:scale-[1.03] hover:bg-white hover:text-black sm:px-12 sm:text-xl">
+              Buy Passes Now
+            </button>
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 bg-black py-10">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <h3 className="mb-6 text-center font-mono text-[11px] uppercase tracking-[0.35em] text-white/45">Supported By</h3>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-xl font-black uppercase tracking-[0.28em] text-white/35 sm:text-2xl">
+              {partners.map((partner) => (
+                <span key={partner}>{partner}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="relative overflow-hidden bg-black px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+        <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2">
+          <div>
+            <p className="font-mono text-sm uppercase tracking-[0.35em] text-[#ccff00]">Connect</p>
+            <div className="mt-5 flex flex-col gap-3 font-mono text-sm uppercase tracking-[0.22em] text-white/75">
+              <a href="#" className="transition-colors hover:text-[#ff0099]">Instagram</a>
+              <a href="#" className="transition-colors hover:text-[#ff0099]">Twitter // X</a>
+              <a href="#" className="transition-colors hover:text-[#ff0099]">Discord</a>
+            </div>
+          </div>
+
+          <div className="md:text-right">
+            <p className="font-mono text-sm uppercase tracking-[0.35em] text-[#ccff00]">Legal</p>
+            <div className="mt-5 flex flex-col gap-3 font-mono text-sm uppercase tracking-[0.22em] text-white/50">
+              <a href="#" className="transition-colors hover:text-white">Privacy Policy</a>
+              <a href="#" className="transition-colors hover:text-white">Terms of Service</a>
+              <a href="#" className="transition-colors hover:text-white">Press Kit</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-14 flex max-w-6xl flex-col gap-3 border-t border-white/15 pt-6 font-mono text-[11px] uppercase tracking-[0.26em] text-white/40 md:flex-row md:items-center md:justify-between">
+          <span>© 2026 Nova Nights. All rights reserved.</span>
+          <span>Designed for nights of impact.</span>
+        </div>
+
+        <div className="pointer-events-none absolute bottom-0 left-1/2 w-full -translate-x-1/2 text-center text-[22vw] font-black uppercase leading-none tracking-[-0.12em] text-white/[0.04] sm:text-[16vw]">
+          NOVA
+        </div>
+      </footer>
+    </div>
+  );
+}
+`;
 
 export const novaNightsSlide: WebsiteShowcaseSlide = {
   id: "nova-nights",

@@ -1,6 +1,9 @@
 export const DEFAULT_SHOWCASE_VIEWPORT_WIDTH = 1440;
 export const DEFAULT_SHOWCASE_VIEWPORT_HEIGHT = 900;
 
+export const PHONE_SHOWCASE_VIEWPORT_WIDTH = 390;
+export const PHONE_SHOWCASE_VIEWPORT_HEIGHT = 844;
+
 export type WebsiteShowcaseSlide = {
   id: string;
   title: string;

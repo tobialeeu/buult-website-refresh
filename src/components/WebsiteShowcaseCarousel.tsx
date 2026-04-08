@@ -13,9 +13,12 @@ import {
 import {
   DEFAULT_SHOWCASE_VIEWPORT_HEIGHT,
   DEFAULT_SHOWCASE_VIEWPORT_WIDTH,
+  PHONE_SHOWCASE_VIEWPORT_HEIGHT,
+  PHONE_SHOWCASE_VIEWPORT_WIDTH,
   type WebsiteShowcaseSlide,
   websiteShowcaseSlides,
 } from "@/content/website-showcases";
+import { useIsPhoneDevice } from "@/hooks/use-phone-device";
 
 type ActiveIframeStatus = "idle" | "mounting" | "ready" | "error";
 
@@ -104,11 +107,13 @@ function useElementWidth<T extends HTMLElement>() {
   return { elementRef, width };
 }
 
-function getViewportWidth(slide: WebsiteShowcaseSlide) {
+function getViewportWidth(slide: WebsiteShowcaseSlide, isPhone = false) {
+  if (isPhone) return PHONE_SHOWCASE_VIEWPORT_WIDTH;
   return slide.viewportWidth ?? DEFAULT_SHOWCASE_VIEWPORT_WIDTH;
 }
 
-function getViewportHeight(slide: WebsiteShowcaseSlide) {
+function getViewportHeight(slide: WebsiteShowcaseSlide, isPhone = false) {
+  if (isPhone) return PHONE_SHOWCASE_VIEWPORT_HEIGHT;
   return slide.viewportHeight ?? DEFAULT_SHOWCASE_VIEWPORT_HEIGHT;
 }
 
@@ -192,12 +197,45 @@ function BrowserWindowShell({
   );
 }
 
+type PhoneWindowShellProps = {
+  children: React.ReactNode;
+  activeSlide: WebsiteShowcaseSlide;
+  slideCount: number;
+  activeSlideIndex: number;
+};
+
+function PhoneWindowShell({ children }: PhoneWindowShellProps) {
+  return (
+    <div className="relative mx-auto max-w-[400px]">
+      {/* Phone bezel */}
+      <div className="rounded-[2.5rem] border border-[#2a2a2a] bg-[#1a1a1a] p-[3px] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_25px_60px_-12px_rgba(0,0,0,0.5)]">
+        {/* Phone screen */}
+        <div className="relative overflow-hidden rounded-[2.35rem] bg-black">
+          {/* Dynamic Island */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-center pt-3">
+            <div className="h-[26px] w-[90px] rounded-full bg-black shadow-[0_0_0_1px_rgba(255,255,255,0.06)]" />
+          </div>
+
+          {/* Screen content */}
+          {children}
+
+          {/* Home indicator */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center pb-2">
+            <div className="h-[5px] w-[134px] rounded-full bg-white/40" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 type PosterImageProps = {
   eager?: boolean;
+  isPhone?: boolean;
   slide: WebsiteShowcaseSlide;
 };
 
-function PosterImage({ eager = false, slide }: PosterImageProps) {
+function PosterImage({ eager = false, isPhone = false, slide }: PosterImageProps) {
   return (
     <img
       src={slide.posterSrc}
@@ -206,8 +244,8 @@ function PosterImage({ eager = false, slide }: PosterImageProps) {
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={eager ? "high" : "low"}
-      width={getViewportWidth(slide)}
-      height={getViewportHeight(slide)}
+      width={getViewportWidth(slide, isPhone)}
+      height={getViewportHeight(slide, isPhone)}
       draggable={false}
     />
   );
@@ -215,17 +253,18 @@ function PosterImage({ eager = false, slide }: PosterImageProps) {
 
 type PosterFrameProps = {
   eagerPoster?: boolean;
+  isPhone?: boolean;
   slide: WebsiteShowcaseSlide;
 };
 
-function PosterFrame({ eagerPoster = false, slide }: PosterFrameProps) {
+function PosterFrame({ eagerPoster = false, isPhone = false, slide }: PosterFrameProps) {
   return (
     <div>
       <div
         className="relative overflow-hidden bg-slate-950/90"
-        style={{ aspectRatio: `${getViewportWidth(slide)} / ${getViewportHeight(slide)}` }}
+        style={{ aspectRatio: `${getViewportWidth(slide, isPhone)} / ${getViewportHeight(slide, isPhone)}` }}
       >
-        <PosterImage eager={eagerPoster} slide={slide} />
+        <PosterImage eager={eagerPoster} isPhone={isPhone} slide={slide} />
       </div>
     </div>
   );
@@ -233,6 +272,7 @@ function PosterFrame({ eagerPoster = false, slide }: PosterFrameProps) {
 
 type ActivePreviewFrameProps = {
   iframeStatus: ActiveIframeStatus;
+  isPhone?: boolean;
   onIframeError: () => void;
   onIframeLoad: () => void;
   shouldMountIframe: boolean;
@@ -241,6 +281,7 @@ type ActivePreviewFrameProps = {
 
 function ActivePreviewFrame({
   iframeStatus,
+  isPhone = false,
   onIframeError,
   onIframeLoad,
   shouldMountIframe,
@@ -248,8 +289,8 @@ function ActivePreviewFrame({
 }: ActivePreviewFrameProps) {
   const { elementRef, width } = useElementWidth<HTMLDivElement>();
   const previewHtml = React.useMemo(() => withPreviewViewportReset(slide.html), [slide.html]);
-  const viewportWidth = getViewportWidth(slide);
-  const viewportHeight = getViewportHeight(slide);
+  const viewportWidth = getViewportWidth(slide, isPhone);
+  const viewportHeight = getViewportHeight(slide, isPhone);
   const scale = width > 0 ? Math.min(1, width / viewportWidth) : 1;
   const isReady = iframeStatus === "ready";
   const isErrored = iframeStatus === "error";
@@ -261,7 +302,7 @@ function ActivePreviewFrame({
         style={{ aspectRatio: `${viewportWidth} / ${viewportHeight}` }}
       >
         <div className={`absolute inset-0 transition-opacity duration-200 ${isReady ? "opacity-0" : "opacity-100"}`}>
-          <PosterImage eager slide={slide} />
+          <PosterImage eager isPhone={isPhone} slide={slide} />
         </div>
 
         {shouldMountIframe ? (
@@ -298,9 +339,11 @@ function ActivePreviewFrame({
 }
 
 function InactiveSlideFrame({
+  isPhone = false,
   shouldWarmPoster,
   slide,
 }: {
+  isPhone?: boolean;
   shouldWarmPoster: boolean;
   slide: WebsiteShowcaseSlide;
 }) {
@@ -309,7 +352,7 @@ function InactiveSlideFrame({
       <div>
         <div
           className="flex items-center justify-center bg-slate-950/92"
-          style={{ aspectRatio: `${getViewportWidth(slide)} / ${getViewportHeight(slide)}` }}
+          style={{ aspectRatio: `${getViewportWidth(slide, isPhone)} / ${getViewportHeight(slide, isPhone)}` }}
         >
           <span className="text-sm font-medium text-white/40">{slide.title}</span>
         </div>
@@ -317,7 +360,7 @@ function InactiveSlideFrame({
     );
   }
 
-  return <PosterFrame eagerPoster={false} slide={slide} />;
+  return <PosterFrame eagerPoster={false} isPhone={isPhone} slide={slide} />;
 }
 
 type ShowcaseInstructionOverlayProps = {
@@ -396,6 +439,7 @@ export default function WebsiteShowcaseCarousel() {
   const [liveSlideId, setLiveSlideId] = React.useState<string | null>(null);
   const liveMountTimeoutRef = React.useRef<number | null>(null);
   const [showOverlay, setShowOverlay] = React.useState(getOverlayInitialVisibility);
+  const isPhone = useIsPhoneDevice();
 
   const dismissOverlay = React.useCallback(() => {
     setShowOverlay(false);
@@ -494,49 +538,44 @@ export default function WebsiteShowcaseCarousel() {
     );
   }
 
-  return (
-    <div className="mx-auto max-w-5xl">
-      <div className="mb-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
-        <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
-      </div>
-      <BrowserWindowShell
-        activeSlide={activeSlide}
-        activeSlideIndex={activeIndex}
-        slideCount={websiteShowcaseSlides.length}
-      >
-        <Carousel
-          setApi={setApi}
-          opts={{ align: "start", loop: true, watchDrag: false }}
-          className="relative"
-        >
-          <CarouselContent>
-            {websiteShowcaseSlides.map((slide, index) => {
-              const isActive = index === activeIndex;
-              const shouldWarmPoster = posterWarmupIds.includes(slide.id);
-              const canRenderLiveIframe =
-                isActive && liveSlideId === slide.id && isRenderableHtmlDocument(slide.html);
+  const Shell = isPhone ? PhoneWindowShell : BrowserWindowShell;
 
-              return (
-                <CarouselItem key={slide.id}>
-                  <div>
-                    {isActive ? (
-                      <ActivePreviewFrame
-                        slide={slide}
-                        iframeStatus={activeIframeStatus}
-                        shouldMountIframe={canRenderLiveIframe}
-                        onIframeLoad={() => setActiveIframeStatus("ready")}
-                        onIframeError={() => setActiveIframeStatus("error")}
-                      />
-                    ) : (
-                      <InactiveSlideFrame slide={slide} shouldWarmPoster={shouldWarmPoster} />
-                    )}
-                  </div>
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
+  const carouselContent = (
+    <Carousel
+      setApi={setApi}
+      opts={{ align: "start", loop: true, watchDrag: isPhone }}
+      className="relative"
+    >
+      <CarouselContent>
+        {websiteShowcaseSlides.map((slide, index) => {
+          const isActive = index === activeIndex;
+          const shouldWarmPoster = posterWarmupIds.includes(slide.id);
+          const canRenderLiveIframe =
+            isActive && liveSlideId === slide.id && isRenderableHtmlDocument(slide.html);
 
+          return (
+            <CarouselItem key={slide.id}>
+              <div>
+                {isActive ? (
+                  <ActivePreviewFrame
+                    slide={slide}
+                    isPhone={isPhone}
+                    iframeStatus={activeIframeStatus}
+                    shouldMountIframe={canRenderLiveIframe}
+                    onIframeLoad={() => setActiveIframeStatus("ready")}
+                    onIframeError={() => setActiveIframeStatus("error")}
+                  />
+                ) : (
+                  <InactiveSlideFrame slide={slide} isPhone={isPhone} shouldWarmPoster={shouldWarmPoster} />
+                )}
+              </div>
+            </CarouselItem>
+          );
+        })}
+      </CarouselContent>
+
+      {isPhone ? null : (
+        <>
           <CarouselPrevious
             className={`left-4 top-1/2 z-20 h-11 w-11 md:left-5 md:h-12 md:w-12 ${activeArrowClasses}`}
           />
@@ -544,8 +583,46 @@ export default function WebsiteShowcaseCarousel() {
             className={`right-4 top-1/2 z-20 h-11 w-11 md:right-5 md:h-12 md:w-12 ${activeArrowClasses}`}
           />
           <ShowcaseInstructionOverlay visible={showOverlay} onDismiss={dismissOverlay} />
-        </Carousel>
-      </BrowserWindowShell>
+        </>
+      )}
+    </Carousel>
+  );
+
+  return (
+    <div className="mx-auto max-w-5xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Website showcase</p>
+        <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">Wat kunnen wij maken?</h2>
+      </div>
+      <Shell
+        activeSlide={activeSlide}
+        activeSlideIndex={activeIndex}
+        slideCount={websiteShowcaseSlides.length}
+      >
+        {carouselContent}
+      </Shell>
+
+      {isPhone ? (
+        <div className="mt-5 flex items-center justify-center gap-5">
+          <button
+            type="button"
+            onClick={() => api?.scrollPrev()}
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${activeArrowClasses}`}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <span className="text-sm font-medium text-foreground/50">
+            {String(activeIndex + 1).padStart(2, "0")} / {String(websiteShowcaseSlides.length).padStart(2, "0")}
+          </span>
+          <button
+            type="button"
+            onClick={() => api?.scrollNext()}
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${activeArrowClasses}`}
+          >
+            <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
