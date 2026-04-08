@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import {
-  ArrowRight,
   CalendarDays,
   Camera,
   CheckCircle2,
@@ -12,6 +10,7 @@ import {
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
+import FinalCtaSection from "@/components/FinalCtaSection";
 
 type ProcessStep = {
   title: string;
@@ -137,35 +136,7 @@ export default function HoeWerkenWij() {
         </div>
       </section>
 
-      <section className="bg-card py-16 md:py-20">
-        <div className="container">
-          <AnimatedSection>
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-surface-dark px-6 py-8 text-surface-dark-foreground shadow-[0_30px_90px_-48px_rgba(15,23,42,0.9)] md:px-10 md:py-10">
-              <div className="pointer-events-none absolute left-0 top-0 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
-              <div className="pointer-events-none absolute bottom-[-4rem] right-[-3rem] h-52 w-52 rounded-full bg-sky-300/20 blur-3xl" />
-              <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-100/80">Volgende stap</p>
-                <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-                  Klaar om dit traject samen te starten?
-                </h2>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/76 md:text-lg">
-                  Plan een kennismaking en we zetten de eerste stap meteen goed neer: helder, direct en zonder
-                  onnodige omwegen.
-                </p>
-                <div className="mt-8 flex justify-center">
-                  <Link
-                    to="/gratis-kennismaking"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white/92 px-8 py-4 text-base font-semibold text-primary shadow-sm shadow-black/10 transition-colors hover:bg-white"
-                  >
-                    Plan een kennismaking
-                    <ArrowRight size={18} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+      <FinalCtaSection />
     </Layout>
   );
 }

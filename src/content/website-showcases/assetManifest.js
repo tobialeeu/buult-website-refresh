@@ -15,8 +15,6 @@ export const showcaseGlobalAssetReplacements = {
     showcaseFontsStylesheetHref,
   "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap":
     showcaseFontsStylesheetHref,
-  "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css":
-    showcaseGlobalBootstrapIconsStylesheetHref,
 };
 
 export const showcaseSlideAssetReplacements = {

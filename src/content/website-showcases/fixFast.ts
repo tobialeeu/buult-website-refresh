@@ -43,6 +43,12 @@ const fixFastHtml = String.raw`<!DOCTYPE html>
         }
         .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
         section { padding: 90px 0; overflow: hidden; }
+        i[class^="bi"], i[class*=" bi-"] {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
 
         .text-center { text-align: center; }
         .section-title { font-family: var(--font-heading); font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 1rem; }

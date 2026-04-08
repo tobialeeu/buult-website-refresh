@@ -4,6 +4,22 @@ import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import overOnsImg from "@/assets/over-ons-founders.jpg";
 
+const joachimBirthDate = { year: 1999, month: 12, day: 23 };
+const tobiasBirthDate = { year: 2002, month: 11, day: 20 };
+
+function getAge({ year, month, day }: { year: number; month: number; day: number }) {
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  const hasHadBirthdayThisYear =
+    today.getMonth() + 1 > month || (today.getMonth() + 1 === month && today.getDate() >= day);
+
+  if (!hasHadBirthdayThisYear) {
+    age -= 1;
+  }
+
+  return age;
+}
+
 const values = [
   {
     title: "Hard werken",
@@ -20,6 +36,9 @@ const values = [
 ];
 
 export default function OverOns() {
+  const joachimAge = getAge(joachimBirthDate);
+  const tobiasAge = getAge(tobiasBirthDate);
+
   return (
     <Layout>
       {/* Hero */}
@@ -32,7 +51,7 @@ export default function OverOns() {
                 Twee broers met een grote passie voor ondernemen
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
-                Wij zijn Joachim (26) en Tobias (23) van Leeuwen. We vinden het geweldig om samen iets op te bouwen en zetten ons graag volledig in om een mooi bedrijf neer te zetten dat echte waarde levert voor klanten en medewerkers.
+                Wij zijn Joachim ({joachimAge}) en Tobias ({tobiasAge}) van Leeuwen. We vinden het geweldig om samen iets op te bouwen en zetten ons graag volledig in om een mooi bedrijf neer te zetten dat echte waarde levert voor klanten en medewerkers.
               </p>
             </div>
           </AnimatedSection>
@@ -56,11 +75,11 @@ export default function OverOns() {
               </div>
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                  Joachim (26) & Tobias (23) van Leeuwen
+                  Joachim ({joachimAge}) & Tobias ({tobiasAge}) van Leeuwen
                 </h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
                   <p>
-                    Wij zijn Joachim (26) en Tobias (23) van Leeuwen, twee broers met een grote passie voor ondernemen. We vinden het geweldig om samen iets op te bouwen en zetten ons graag volledig in om een mooi bedrijf neer te zetten dat echte waarde levert voor klanten en medewerkers.
+                    Wij zijn Joachim ({joachimAge}) en Tobias ({tobiasAge}) van Leeuwen, twee broers met een grote passie voor ondernemen. We vinden het geweldig om samen iets op te bouwen en zetten ons graag volledig in om een mooi bedrijf neer te zetten dat echte waarde levert voor klanten en medewerkers.
                   </p>
                   <p>
                     Wat ons kenmerkt, is dat we hard werken, ondernemend denken en veel plezier halen uit het proces. We vinden een goede samenwerking enorm belangrijk, zowel intern als met onze klanten. Daarom geloven we in korte lijnen, eerlijk contact en samen toewerken naar een resultaat waar iedereen enthousiast over is.
